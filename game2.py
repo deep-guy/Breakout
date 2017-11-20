@@ -6,6 +6,7 @@ pygame.init()
 white=(255,255,255)
 black=(0,0,0)
 red=(255,0,0)
+green=(0,255,0)
 #resoultion
 display_width=800
 display_height=600
@@ -48,9 +49,28 @@ def block(blx,bly,bls,l,i):
 	if l[i]:
 		pygame.draw.rect(gameDisplay,red,[blx,bly,bls,block_size])
 	
+z=500
 
+timetoggle=False
+def timeblock(blx,bly,bls,l,i):
+    if (lead_x>blx and lead_x<blx+bls and lead_y+block_size>bly and lead_y<bly+block_size and l[i]==1):
+        l[i]=0
+        global lead_y_change
+        global lead_x_change
+        lead_y_change=-lead_y_change
+        if lead_x_change<0:
+            lead_x_change=-5/2
+        else:
+            lead_x_change=5/2
+        if lead_y_change<0:
+            lead_y_change=-5/2
+        else:
+            lead_y_change=5/2                    
+    if l[i]:
+            pygame.draw.rect(gameDisplay,green,[blx,bly,bls,block_size])
+            timetoggle=False
 l=[]
-for i in range(15):
+for i in range(16):#need a bvariable for number of blocks
     l.append(1)
 #print l
 while not gameexit:
@@ -61,33 +81,33 @@ while not gameexit:
                         gameexit=True
                 if event.type ==pygame.KEYDOWN:
 			if event.key == pygame.K_LEFT:
-				leadbar_x_change=-5
+				leadbar_x_change=-10
 				z1=1
 			if event.key == pygame.K_RIGHT:
-				leadbar_x_change=5
+				leadbar_x_change=10
 				z2=1
 		if event.type ==pygame.KEYUP:
 			leadbar_x_change=0
                     
         #dividing bar in 3 parts                        
-        if lead_x>=lead_x_bar and lead_x<(lead_x_bar+bar_size/3) and lead_y==(lead_y_bar-block_size):
+        if lead_x>=lead_x_bar and lead_x<(lead_x_bar+bar_size/3) and (lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar):
 		if(lead_x_change>0):
 			lead_y_change=-lead_y_change
 			lead_x_change=-lead_x_change
 		else:
 			lead_y_change=-lead_y_change
-	if lead_x>=lead_x_bar+bar_size/3 and lead_x<(lead_x_bar+(bar_size*2)/3) and lead_y==(lead_y_bar-block_size):
+	if lead_x>=lead_x_bar+bar_size/3 and lead_x<(lead_x_bar+(bar_size*2)/3) and lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar:
                 lead_y_change=-lead_y_change
-	if lead_x>=lead_x_bar+(bar_size*2)/3 and lead_x<=(lead_x_bar+bar_size) and lead_y==(lead_y_bar-block_size):
+	if lead_x>=lead_x_bar+(bar_size*2)/3 and lead_x<=(lead_x_bar+bar_size) and lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar:
                 if(lead_x_change<0):
 			lead_y_change=-lead_y_change
 			lead_x_change=-lead_x_change
 		else:
 			lead_y_change=-lead_y_change
 #change in postion of ball
-        if lead_x==display_width or lead_x==0 :
+        if lead_x>=display_width or lead_x<=0 :
 		lead_x_change=-lead_x_change
-	if lead_y==0:
+	if lead_y<=0:
 		lead_y_change=-lead_y_change	
 #game over when ball goes down
         if lead_y>display_height:
@@ -103,14 +123,26 @@ while not gameexit:
 		lead_x_bar=0
 	if(lead_x_bar>=display_width-bar_size):
 		lead_x_bar=display_width-bar_size
-
-        
-        
         gameDisplay.fill(white)
 	pygame.draw.rect(gameDisplay,red,[lead_x_bar,lead_y_bar,bar_size,block_size])
 	#block(150,100,50,l)
         for i in range(15):
-            block(i*50,100,50,l,i)
+            if l[i]==1:
+                block(i*50,100,50,l,i)
+        if l[15]==1:
+            timeblock(250,150,250,l,15)
+        if z>0 and l[15]==0:
+            z-=1
+        if z==0:
+            if lead_x_change<0:
+                lead_x_change=-5
+            else:
+                lead_x_change=5
+            if lead_y_change<0:
+                lead_y_change=-5
+            else:
+                lead_y_change=5
+
         pygame.draw.rect(gameDisplay,black,[lead_x,lead_y,block_size,block_size])
         lead_x += lead_x_change
         lead_y += lead_y_change
