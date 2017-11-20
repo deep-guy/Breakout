@@ -40,21 +40,20 @@ clock=pygame.time.Clock()
 message_to_screen("breakout",red)
 pygame.display.update()
 time.sleep(2)
-tt=0
-def block(blx,bly,bls,l):
+def block(blx,bly,bls,l,i):
 	global tt
-	if (lead_x>blx and lead_x<blx+bls and lead_y>bly and lead_y<bly+block_size and tt==0):
-		l[0]=0
-		tt=tt+1
+	if (lead_x>blx and lead_x<blx+bls and lead_y>bly and lead_y<bly+block_size and l[i]==1):
+		l[i]=0
 		global lead_y_change
 		lead_y_change=-lead_y_change
-	if l[0]:
+	if l[i]:
 		pygame.draw.rect(gameDisplay,red,[blx,bly,bls,block_size])
 	
 
-l=[1]
-l=[(200,200)]	
-
+l=[]
+for i in range(15):
+    l.append(1)
+#print l
 while not gameexit:
 	z1=0
 	z2=0
@@ -110,7 +109,9 @@ while not gameexit:
         lead_y += lead_y_change
         gameDisplay.fill(white)
 	pygame.draw.rect(gameDisplay,red,[lead_x_bar,lead_y_bar,bar_size,block_size])
-	block(150,100,50,l)
+	#block(150,100,50,l)
+        for i in range(15):
+            block(i*50,100,50,l,i)
         pygame.draw.rect(gameDisplay,black,[lead_x,lead_y,block_size,block_size])
 
         pygame.display.update()
