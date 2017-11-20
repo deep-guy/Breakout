@@ -32,6 +32,7 @@ leadbar_x_change=0
 fps=30
 #bar size
 bar_size=150
+score=0
 bg= pygame.image.load("sk.png")
 bg= pygame.transform.scale(bg,(display_width,display_height))
 brick= pygame.image.load("brick.png")
@@ -50,6 +51,8 @@ def block(blx,bly,bls,l,i):
 		l[i]=0
 		global lead_y_change
 		lead_y_change=-lead_y_change
+		global score
+		score +=1
 	if l[i]:
 		pygame.draw.rect(gameDisplay,red,[blx,bly,bls,block_size])
 		global brick
@@ -188,6 +191,9 @@ while not gameexit:
 
         pygame.draw.rect(gameDisplay,black,[lead_x,lead_y,block_size,block_size])
 	level()
+	font1=pygame.font.SysFont(None,100)
+	screen_text =font.render("score"+str(score),True,black)
+        gameDisplay.blit(screen_text,[0,0])
         lead_x += lead_x_change
         lead_y += lead_y_change
         pygame.display.update()
