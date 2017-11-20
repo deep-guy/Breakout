@@ -32,6 +32,10 @@ leadbar_x_change=0
 fps=30
 #bar size
 bar_size=150
+bg= pygame.image.load("sk.png")
+bg= pygame.transform.scale(bg,(display_width,display_height))
+brick= pygame.image.load("brick.png")
+brickgreen=pygame.image.load("gb1.jpg")
 font=pygame.font.SysFont(None,50)
 def message_to_screen(msg,color):
         screen_text =font.render(msg,True,color)
@@ -48,7 +52,9 @@ def block(blx,bly,bls,l,i):
 		lead_y_change=-lead_y_change
 	if l[i]:
 		pygame.draw.rect(gameDisplay,red,[blx,bly,bls,block_size])
-	
+		global brick
+		brick=pygame.transform.scale(brick,(bls,block_size))
+		gameDisplay.blit(brick,(blx,bly))
 z=500
 
 timetoggle=False
@@ -68,6 +74,9 @@ def timeblock(blx,bly,bls,l,i):
             lead_y_change=5/2                    
     if l[i]:
             pygame.draw.rect(gameDisplay,green,[blx,bly,bls,block_size])
+	    global brickgreen
+	    brickgreen=pygame.transform.scale(brickgreen,(bls,block_size))
+	    gameDisplay.blit(brickgreen,(blx,bly))
             timetoggle=False
 l=[]
 for i in range(16):#need a bvariable for number of blocks
@@ -124,6 +133,7 @@ while not gameexit:
 	if(lead_x_bar>=display_width-bar_size):
 		lead_x_bar=display_width-bar_size
         gameDisplay.fill(white)
+	gameDisplay.blit(bg,(0,0))
 	pygame.draw.rect(gameDisplay,red,[lead_x_bar,lead_y_bar,bar_size,block_size])
 	#block(150,100,50,l)
         for i in range(15):
