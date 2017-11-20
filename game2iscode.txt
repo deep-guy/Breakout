@@ -1,0 +1,5 @@
+game 2 is code file
+
+
+Also acts as a readme for now.
+
