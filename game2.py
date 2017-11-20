@@ -79,9 +79,42 @@ def timeblock(blx,bly,bls,l,i):
 	    gameDisplay.blit(brickgreen,(blx,bly))
             timetoggle=False
 l=[]
+l1=[]
+l2=[]
+l3=[]
 for i in range(16):#need a bvariable for number of blocks
     l.append(1)
+    l1.append(1)
+    l2.append(1)
+    l3.append(1)
 #print l
+l4=[1,1,1,1,1]
+l5=[1,1,1,1,1]
+def level():
+	 for i in range(15):
+            if l[i]==1:
+                block(i*50,100,50,l,i)
+	 for i in range(15):
+            if l1[i]==1:
+                block(i*50,100+40,50,l1,i)
+	 for i in range(15):
+            if l2[i]==1:
+                block(i*50,100+80,50,l2,i)
+	 for i in range(15):
+            if l3[i]==1:
+                block(i*50,100+120,50,l3,i)
+	 timeblock(100,100+20,50,l4,0)
+	 timeblock(200,100+20,50,l4,1)
+         timeblock(300,100+20,50,l4,2)
+         timeblock(400,100+20,50,l4,3)
+         timeblock(500,100+20,50,l4,4)
+         timeblock(100,100+100,50,l5,0)
+         timeblock(200,100+100,50,l5,1)
+         timeblock(300,100+100,50,l5,2)
+         timeblock(400,100+100,50,l5,3)
+         timeblock(500,100+100,50,l5,4)
+
+
 while not gameexit:
 	z1=0
 	z2=0
@@ -136,24 +169,25 @@ while not gameexit:
 	gameDisplay.blit(bg,(0,0))
 	pygame.draw.rect(gameDisplay,red,[lead_x_bar,lead_y_bar,bar_size,block_size])
 	#block(150,100,50,l)
-        for i in range(15):
-            if l[i]==1:
-                block(i*50,100,50,l,i)
-        if l[15]==1:
-            timeblock(250,150,250,l,15)
+#        for i in range(15):
+#            if l[i]==1:
+#                block(i*50,100,50,l,i)
+#        if l[15]==1:
+#            timeblock(250,150,250,l,15)
         if z>0 and l[15]==0:
             z-=1
         if z==0:
             if lead_x_change<0:
                 lead_x_change=-5
             else:
-                lead_x_change=5
+               lead_x_change=5
             if lead_y_change<0:
                 lead_y_change=-5
             else:
                 lead_y_change=5
 
         pygame.draw.rect(gameDisplay,black,[lead_x,lead_y,block_size,block_size])
+	level()
         lead_x += lead_x_change
         lead_y += lead_y_change
         pygame.display.update()
