@@ -34,15 +34,14 @@ bar_size=150
 font=pygame.font.SysFont(None,50)
 def message_to_screen(msg,color):
         screen_text =font.render(msg,True,color)
-        gameDisplay.blit(screen_text,[display_width/2,display_height/2])
+        gameDisplay.blit(screen_text,[display_width/2-50,display_height/2-20])
 clock=pygame.time.Clock()
 #starting screen
-message_to_screen("breakout",red)
+message_to_screen("Breakout!!",red)
 pygame.display.update()
 time.sleep(2)
 def block(blx,bly,bls,l,i):
-	global tt
-	if (lead_x>blx and lead_x<blx+bls and lead_y>bly and lead_y<bly+block_size and l[i]==1):
+	if (lead_x>blx and lead_x<blx+bls and lead_y+block_size>bly and lead_y<bly+block_size and l[i]==1):
 		l[i]=0
 		global lead_y_change
 		lead_y_change=-lead_y_change
@@ -70,14 +69,14 @@ while not gameexit:
 		if event.type ==pygame.KEYUP:
 			leadbar_x_change=0
                     
-        #deviding bar in 3 parts                        
-        if lead_x>=lead_x_bar and lead_x<=(lead_x_bar+bar_size/3) and lead_y==(lead_y_bar-block_size):
+        #dividing bar in 3 parts                        
+        if lead_x>=lead_x_bar and lead_x<(lead_x_bar+bar_size/3) and lead_y==(lead_y_bar-block_size):
 		if(lead_x_change>0):
 			lead_y_change=-lead_y_change
 			lead_x_change=-lead_x_change
 		else:
 			lead_y_change=-lead_y_change
-	if lead_x>lead_x_bar+bar_size/3 and lead_x<=(lead_x_bar+(bar_size*2)/3) and lead_y==(lead_y_bar-block_size):
+	if lead_x>=lead_x_bar+bar_size/3 and lead_x<(lead_x_bar+(bar_size*2)/3) and lead_y==(lead_y_bar-block_size):
                 lead_y_change=-lead_y_change
 	if lead_x>=lead_x_bar+(bar_size*2)/3 and lead_x<=(lead_x_bar+bar_size) and lead_y==(lead_y_bar-block_size):
                 if(lead_x_change<0):
@@ -91,7 +90,7 @@ while not gameexit:
 	if lead_y==0:
 		lead_y_change=-lead_y_change	
 #game over when ball goes down
-        if lead_y>=display_height:
+        if lead_y>display_height:
 		message_to_screen("game over",red)
 		pygame.display.update()
 		time.sleep(2)
@@ -105,15 +104,16 @@ while not gameexit:
 	if(lead_x_bar>=display_width-bar_size):
 		lead_x_bar=display_width-bar_size
 
-        lead_x += lead_x_change
-        lead_y += lead_y_change
+        
+        
         gameDisplay.fill(white)
 	pygame.draw.rect(gameDisplay,red,[lead_x_bar,lead_y_bar,bar_size,block_size])
 	#block(150,100,50,l)
         for i in range(15):
             block(i*50,100,50,l,i)
         pygame.draw.rect(gameDisplay,black,[lead_x,lead_y,block_size,block_size])
-
+        lead_x += lead_x_change
+        lead_y += lead_y_change
         pygame.display.update()
         clock.tick(2*fps)
 pygame.quit()
