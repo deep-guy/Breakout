@@ -102,25 +102,7 @@ def block(blx,bly,bls,l,i):
 
 '''
 def timeblock(blx,bly,bls,l,i):
-    if (lead_x>blx and lead_x<blx+bls and lead_y+block_size>bly and lead_y<bly+block_size and l[i]==1):
-        l[i]=0
-        global lead_y_change
-        global lead_x_change
-        lead_y_change=-lead_y_change
-        if lead_x_change<0:
-            lead_x_change=-5/2
-        else:
-            lead_x_change=5/2
-        if lead_y_change<0:
-            lead_y_change=-5/2
-        else:
-            lead_y_change=5/2                    
-    if l[i]:
-            pygame.draw.rect(gameDisplay,green,[blx,bly,bls,block_size])
-	    global brickgreen
-	    brickgreen=pygame.transform.scale(brickgreen,(bls,block_size))
-	    gameDisplay.blit(brickgreen,(blx,bly))
-            timetoggle=False
+    
 '''
             #List declaration for each row of Bricks
 l=[]
@@ -128,20 +110,17 @@ l1=[]
 l2=[]
 l3=[]
 
-
-            #List initialization for each row of Bricks
-'''
+            #List initialization for bricks
 for i in range(16):
-    l.append(1)
-    l1.append(1)
-    l2.append(1)
-    l3.append(1)
+	    l.append(1)
+	    l1.append(1)
+	    l2.append(1)
+	    l3.append(1)
 '''
-
             #Broken Time Block List
 l4=[1,1,1,1,1]
 l5=[1,1,1,1,1]
-
+'''
             #Level Creation Function 
 def level():
             #Row creation for normal bricks
@@ -161,6 +140,18 @@ def level():
             #Broken Time Block functions
 	 #timeblock(200,100+20,50,l4,1)
          #timeblock(400,100+100,50,l5,3)
+
+
+def brickrestart():
+    global l
+    global l1
+    global l2
+    global l3
+    for i in range(16):
+        l[i]=1
+        l1[i]=1
+        l2[i]=1
+        l3[i]=1
 
             #Game Loop Function
 def gameloop():
@@ -214,12 +205,7 @@ def gameloop():
 	l2=[]
 	l3=[]
         '''
-            #List for Row of Brick creation Intialization
-	for i in range(16):
-	    l.append(1)
-	    l1.append(1)
-	    l2.append(1)
-	    l3.append(1)
+        brickrestart()        
             #Broken Time loop list , I think
 	l4=[1,1,1,1,1]
 	l5=[1,1,1,1,1]
@@ -272,6 +258,8 @@ def gameloop():
 			pygame.display.update()
 			time.sleep(2)
 			gameover=True
+
+                #Replayability after death 
 		while gameover== True:
 			gameDisplay.fill(black)
 			global white
@@ -284,6 +272,8 @@ def gameloop():
                                                 gameexit=True
                                                 gameover=False
                                         if event.key == pygame.K_c:
+                                                brickrestart()
+                                                score=0
                                                 gameloop()
   
 			    
@@ -300,6 +290,7 @@ def gameloop():
 		gameDisplay.blit(bg,(0,0))
 		pygame.draw.rect(gameDisplay,red,[lead_x_bar,lead_y_bar,bar_size,block_size])
         	
+                '''
                 #Broken Time Brick Code
                 if z>0 and l[15]==0:
             		z-=1
@@ -313,6 +304,7 @@ def gameloop():
            	else:
                 	lead_y_change=5
 
+                '''
                 #Drawing the ball
         	pygame.draw.rect(gameDisplay,black,[lead_x,lead_y,block_size,block_size])
 
@@ -321,7 +313,7 @@ def gameloop():
 
                 #Displaying the score
 		font1=pygame.font.SysFont(None,100)
-		screen_text =font.render("score"+str(score),True,black)
+		screen_text =font.render("Score "+str(score),True,black)
         	gameDisplay.blit(screen_text,[0,0])
 
                 #Changing the ball position for the next loop
