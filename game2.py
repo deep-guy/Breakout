@@ -106,16 +106,16 @@ def level():
 	 for i in range(15):
             if l3[i]==1:
                 block(i*50,100+120,50,l3,i)
-	 timeblock(100,100+20,50,l4,0)
+	 #timeblock(100,100+20,50,l4,0)
 	 timeblock(200,100+20,50,l4,1)
-         timeblock(300,100+20,50,l4,2)
-         timeblock(400,100+20,50,l4,3)
-         timeblock(500,100+20,50,l4,4)
-         timeblock(100,100+100,50,l5,0)
-         timeblock(200,100+100,50,l5,1)
-         timeblock(300,100+100,50,l5,2)
+         #timeblock(300,100+20,50,l4,2)
+         #timeblock(400,100+20,50,l4,3)
+         #timeblock(500,100+20,50,l4,4)
+         #timeblock(100,100+100,50,l5,0)
+         #timeblock(200,100+100,50,l5,1)
+         #timeblock(300,100+100,50,l5,2)
          timeblock(400,100+100,50,l5,3)
-         timeblock(500,100+100,50,l5,4)
+         #timeblock(500,100+100,50,l5,4)
 
 
 while not gameexit:
@@ -150,7 +150,7 @@ while not gameexit:
 		else:
 			lead_y_change=-lead_y_change
 #change in postion of ball
-        if lead_x>=display_width or lead_x<=0 :
+        if lead_x+block_size>=display_width or lead_x<=0 :
 		lead_x_change=-lead_x_change
 	if lead_y<=0:
 		lead_y_change=-lead_y_change	
