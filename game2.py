@@ -130,6 +130,14 @@ l3=[]
 tb=[]
 tc=[]
 
+l21=[]
+l22=[]
+l23=[]
+l24=[]
+l25=[]
+l26=[]
+l27=[]
+
         #List initialization for bricks
             #Normal Bricks    
 for i in range(16):
@@ -142,11 +150,23 @@ for i in range(16):
 for i in range(2):
             tb.append(1)
             tc.append(500)
-'''
-            #Broken Time Block List
-l4=[1,1,1,1,1]
-l5=[1,1,1,1,1]
-'''
+
+for i in range(15):
+        l21.append(1)
+for i in range(14):
+        l22.append(1)
+for i in range(13):
+        l23.append(1)
+for i in range(12):
+        l24.append(1)
+for i in range(11):
+        l25.append(1)
+for i in range(10):
+        l26.append(1)
+for i in range(19):
+        l27.append(1)
+
+
             #Level Creation Function 
 def level():
         global lead_x_change
@@ -172,6 +192,40 @@ def level():
         speedtoggle=0
         speedcontrol(speedtoggle) 
 
+def level2():
+        global lead_x_change
+        global lead_y_change
+        for i in range(15):
+            if i>0:
+                if l21[i]==1:
+                    block(i*50,100,50,l21,i)
+        for i in range(14):
+            if i>1:
+                if l22[i]==1:
+                    block(i*50,110,50,l22,i)
+        for i in range(13):
+            if i>2:
+                if l23[i]==1:
+                    block(i*50,120,50,l23,i)
+        for i in range(12):
+            if i>3:
+                if l24[i]==1:
+                    block(i*50,130,50,l24,i)
+        for i in range(11):
+            if i>4:
+                if l25[i]==1:
+                    block(i*50,140,50,l25,i)
+        for i in range(10):
+            if i>5:
+                if l26[i]==1:
+                    block(i*50,150,50,l26,i)
+        for i in range(9):
+            if i>6:
+                if l27[i]==1:
+                    block(i*50,160,50,l27,i)
+
+
+        #Speed Control Function
 def speedcontrol(speedtoggle):
         global lead_x_change
         global lead_y_change
@@ -214,6 +268,20 @@ def brickrestart():
     for i in range(2):
         tb[i]=1
         tc[i]=500
+    for i in range(15):
+         l21[i]=1
+    for i in range(14):
+         l22[i]=1
+    for i in range(13):
+        l23[i]=1
+    for i in range(12):
+        l24[i]=1
+    for i in range(11):
+        l25[i]=1
+    for i in range(10):
+        l26[i]=1
+    for i in range(9):
+        l27[i]=1
 
             #Game Loop Function
 def gameloop():
@@ -416,6 +484,7 @@ def gameloop():
 
                 #Drawing the level
 		level()
+                #level2()
 
                 #Displaying the score
 		font1=pygame.font.SysFont(None,100)
