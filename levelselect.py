@@ -19,8 +19,10 @@ yellow=(255,255,0)
 
         #Loading the sounds
 background_music = pygame.mixer.music.load("background.mpeg")
-hit_sound = pygame.mixer.Sound("hit.mpeg")
-bounce_sound = pygame.mixer.Sound("bounce.wav")
+hit_sound = pygame.mixer.Sound("brick.ogg")
+bounce_sound = pygame.mixer.Sound("hit.ogg")
+life_sound = pygame.mixer.Sound("life.ogg")
+ice_sound = pygame.mixer.Sound("ice.ogg")
 pygame.mixer.music.play(-1)
 
         #Resoultion
@@ -108,6 +110,7 @@ def block(blx,bly,bls,l,i):
         lead_y_change=-lead_y_change
         global score
         score +=1
+        pygame.mixer.Sound.play(hit_sound)
     if l[i]:
         pygame.draw.rect(gameDisplay,red,[blx,bly,bls,block_size])
         global brick
@@ -124,6 +127,7 @@ def timeblock(blx,bly,bls,l,i):
         global tc
         tc[i]-=1
         score +=2
+        pygame.mixer.Sound.play(ice_sound)
     if tb[i]:
         pygame.draw.rect(gameDisplay,blue,[blx,bly,bls,block_size])
         brick1=pygame.transform.scale(brickgreen,(bls,block_size))
@@ -518,22 +522,29 @@ def gameloop():
                 if(lead_x_change>0):
                         lead_y_change=-lead_y_change
                         lead_x_change=-lead_x_change
+                        pygame.mixer.Sound.play(bounce_sound)
                 else:
                         lead_y_change=-lead_y_change
+                        pygame.mixer.Sound.play(bounce_sound)
         if lead_x>=lead_x_bar+bar_size/3 and lead_x<(lead_x_bar+(bar_size*2)/3) and lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar:
                 lead_y_change=-lead_y_change
+                pygame.mixer.Sound.play(bounce_sound)
         if lead_x>=lead_x_bar+(bar_size*2)/3 and lead_x<=(lead_x_bar+bar_size) and lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar:
                 if(lead_x_change<0):
                         lead_y_change=-lead_y_change
                         lead_x_change=-lead_x_change
+                        pygame.mixer.Sound.play(bounce_sound)
                 else:
                         lead_y_change=-lead_y_change
+                        pygame.mixer.Sound.play(bounce_sound)
 
         #Reflection of ball at the edge of the screen
         if lead_x+block_size>=display_width or lead_x<=0 :
                 lead_x_change=-lead_x_change
+                pygame.mixer.Sound.play(bounce_sound)
         if lead_y<=0:
                 lead_y_change=-lead_y_change
+                pygame.mixer.Sound.play(bounce_sound)
 
         #Game over when ball goes down under the screen and the bar misses
         if lead_y>display_height:
@@ -549,6 +560,7 @@ def gameloop():
                 lead_x=400
                 lead_y=400
                 time.sleep(1)
+                pygame.mixer.Sound.play(life_sound)
                 continue
 
         #Replayability after death 
