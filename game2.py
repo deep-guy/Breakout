@@ -118,9 +118,8 @@ def timeblock(blx,bly,bls,l,i):
 		score +=2
         if tb[i]:
                 pygame.draw.rect(gameDisplay,blue,[blx,bly,bls,block_size])
-		global brick
-		brick=pygame.transform.scale(brick,(bls,block_size))
-		gameDisplay.blit(brick,(blx,bly))
+		brick1=pygame.transform.scale(brickgreen,(bls,block_size))
+		gameDisplay.blit(brick1,(blx,bly))
         
 
             #List declaration for each row of Bricks
@@ -269,9 +268,34 @@ def gameloop():
             #Broken Time loop list , I think
 	#l4=[1,1,1,1,1]
 	#l5=[1,1,1,1,1]
+        global bge
 
         #Main Game Loop
-        gameDisplay.blit(bge,(0,0))
+        def mainmenu():
+			gameDisplay.fill(black)
+                        mouse_x,mouse_y=pygame.mouse.get_pos()
+			global white,bge,red,yellow
+                        gameDisplay.blit(bge,(0,0))
+                        screen_text=font.render("BREAKOUT",True,red)
+                        gameDisplay.blit(screen_text,[350,0])
+			#screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
+        		#gameDisplay.blit(screen_text,[0,display_height/6])
+                        if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
+                            pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
+                            screen_text=font.render("PLAY",True,red)
+                        else:
+                            pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                            screen_text=font.render("PLAY",True,(0,255,255))
+                        gameDisplay.blit(screen_text,[310,300])
+                        if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460):
+                            pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+                            screen_text=font.render("QUIT",True,red)
+                        else:
+                            pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                            screen_text=font.render("QUIT",True,(0,255,255))
+                        gameDisplay.blit(screen_text,[350,400])
+			pygame.display.update()
+                        time.sleep(5)
 
 	while not gameexit:
                 mouse_x,mouse_y=pygame.mouse.get_pos()
