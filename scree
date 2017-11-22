@@ -46,8 +46,8 @@ lead_y_bar=display_height-block_size
 bar_size=150
 
             #Chage in position of ball
-lead_x_change=4
-lead_y_change=-4
+lead_x_change=8
+lead_y_change=-8
 
             #Change in position of bar
 leadbar_x_change=0
@@ -58,11 +58,9 @@ fps=30
             #Score
 score=0
 
-            #Ball Speed Control
-speedtoggle=0
-
-            #Life
-life=2
+            #Unknown Variable
+z=500
+timetoggle=False
 
 
         #Graphics Loading
@@ -166,13 +164,7 @@ def level():
         for i in range(2):
             if tb[i]==1:
                 timeblock(i*7/4+37,100+30*i,100,tb,i)
-        global speedtoggle
         speedtoggle=0
-        speedcontrol(speedtoggle) 
-
-def speedcontrol(speedtoggle):
-        global lead_x_change
-        global lead_y_change
         for i in range(2):
             if tc[i]<500 and tc[i]>0:
                 tc[i]-=1
@@ -182,22 +174,27 @@ def speedcontrol(speedtoggle):
                 speedtoggle=2
         if speedtoggle==1:
             if lead_x_change<0:
-                lead_x_change=-2
+                lead_x_change=-4
             else:
-                lead_x_change=2
+                lead_x_change=4
             if lead_y_change<0:
-                lead_y_change=-2
+                lead_y_change=-4
             else:
-                lead_y_change=2
+                lead_y_change=4
         if speedtoggle==2:
             if lead_x_change>0:
-                lead_x_change=4
+                lead_x_change=8
             else:
-                lead_x_change=-4
+                lead_x_change=-8
             if lead_y_change>0:
-                lead_y_change=4
+                lead_y_change=8
             else:
-                lead_y_change=-4 
+                lead_y_change=-8
+
+            #Broken Time Block functions
+	 #timeblock(200,100+20,50,l4,1)
+         #timeblock(400,100+100,50,l5,3)
+
 
 def brickrestart():
     global l
@@ -257,11 +254,14 @@ def gameloop():
 	global l
 	global l1,l2,l3,l4,l5
 
-            #Life Scoping
-        global life
-        life=2
             #Unknown Variables
         global z
+        '''
+	l=[]
+	l1=[]
+	l2=[]
+	l3=[]
+        '''
         brickrestart()        
             #Broken Time loop list , I think
 	#l4=[1,1,1,1,1]
@@ -311,17 +311,10 @@ def gameloop():
 
                 #Game over when ball goes down under the screen and the bar misses
         	if lead_y>display_height:
-                    if life==0:
-                        message_to_screen("game over",red)
+			message_to_screen("game over",red)
 			pygame.display.update()
 			time.sleep(2)
 			gameover=True
-                    else:
-                        life=life-1
-                        lead_x=400
-                        lead_y=400
-                        time.sleep(1)
-                        continue
 
                 #Replayability after death 
 		while gameover== True:
@@ -354,6 +347,21 @@ def gameloop():
 		gameDisplay.blit(bg,(0,0))
 		pygame.draw.rect(gameDisplay,red,[lead_x_bar,lead_y_bar,bar_size,block_size])
         	
+                '''
+                #Broken Time Brick Code
+                if z>0 and l[15]==0:
+            		z-=1
+        	if z==0:
+            		if lead_x_change<0:
+                		lead_x_change=-5
+            		else:
+               			lead_x_change=5
+            	if lead_y_change<0:
+                	lead_y_change=-5
+           	else:
+                	lead_y_change=5
+
+                '''
                 #Drawing the ball
         	pygame.draw.rect(gameDisplay,black,[lead_x,lead_y,block_size,block_size])
 
@@ -364,12 +372,10 @@ def gameloop():
 		font1=pygame.font.SysFont(None,100)
 		screen_text =font.render("Score "+str(score),True,black)
         	gameDisplay.blit(screen_text,[0,0])
-                screen_text=font.render("Life "+str(life),True,black)
-                gameDisplay.blit(screen_text,[540,0])
                 for i in range(2):
                     if tc[i]>0 and tc[i]<500:
                         screen_text=font.render("Time "+str(tc[i]),True,black)
-                        gameDisplay.blit(screen_text,[(i+1)*200,0])
+                gameDisplay.blit(screen_text,[i*100,0])
 
                 #Changing the ball position for the next loop
         	lead_x += lead_x_change
@@ -387,20 +393,3 @@ def gameloop():
 
 #Calling the Function which runs all the Code for the game
 gameloop()
-
-
-
-
-#Things to be done
-#1. Main Menu
-#2. Level Creation - Fixing level and maybe new level
-
-#2nd priority
-#2. Power ups - Fireball, Death Block(Life), Life Block, Score Multiplier Blocks
-#3. Colors for the block, Image Loading
-
-#3rd priority
-#Audio
-
-
-
