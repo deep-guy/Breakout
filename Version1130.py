@@ -17,15 +17,15 @@ green=(0,255,0)
 blue=(0,0,255)
 yellow=(255,255,0)
 
-            #Resoultion
-display_width=800
-display_height=600
-
-            #Loading the sounds
+        #Loading the sounds
 background_music = pygame.mixer.music.load("background.mpeg")
 hit_sound = pygame.mixer.Sound("hit.mpeg")
 bounce_sound = pygame.mixer.Sound("bounce.wav")
 pygame.mixer.music.play(-1)
+
+        #Resoultion
+display_width=800
+display_height=600
 
             #Defining display
 gameDisplay=pygame.display.set_mode((display_width,display_height))
@@ -67,13 +67,10 @@ score=0
 
             #Ball Speed Control
 speedtoggle=0
+fspeedtoggle=0
 
             #Life
-life=2
-
-            #Menu control
-play=False
-quit1=False
+life=0
 
 
         #Graphics Loading
@@ -127,10 +124,23 @@ def timeblock(blx,bly,bls,l,i):
         tc[i]-=1
         score +=2
     if tb[i]:
-            pygame.draw.rect(gameDisplay,blue,[blx,bly,bls,block_size])
-            brick1=pygame.transform.scale(brickgreen,(bls,block_size))
-            gameDisplay.blit(brick1,(blx,bly))
+        pygame.draw.rect(gameDisplay,blue,[blx,bly,bls,block_size])
+        brick1=pygame.transform.scale(brickgreen,(bls,block_size))
+        gameDisplay.blit(brick1,(blx,bly))
         
+def fastblock(blx,bly,bls,fb,i):
+    if (lead_x>blx and lead_x<blx + bls and lead_y+block_size>bly and lead_y<bly+block_size and tb[i]==1):
+        fb[i]=0
+        global lead_y_change
+        lead_y_change=-lead_y_change
+        global score
+        global tc
+        fc[i]-=1
+        score +=2
+    if fb[i]:
+        pygame.draw.rect(gameDisplay,blue,[blx,bly,bls,block_size])
+        brick1=pygame.transform.scale(brickgreen,(bls,block_size))
+        gameDisplay.blit(brick1,(blx,bly))
 
             #List declaration for each row of Bricks
 l=[]
@@ -147,6 +157,9 @@ l24=[]
 l25=[]
 l26=[]
 l27=[]
+
+fb=[]
+fc=[]
 
         #List initialization for bricks
             #Normal Bricks    
@@ -176,12 +189,15 @@ for i in range(10):
 for i in range(19):
     l27.append(1)
 
+for i in range(2):
+    fb.append(1)
+    fc.append(500)
 
             #Level Creation Function 
 def level():
     global lead_x_change
     global lead_y_change
-            #Row creation for normal bricks
+        #Row creation for normal bricks
     for i in range(15):
         if l[i]==1:
             block(i*50,100,50,l,i)
@@ -233,7 +249,13 @@ def level2():
         if i>6:
             if l27[i]==1:
                 block(i*50,160,50,l27,i)
-
+    if fb[0]==1:
+        fastblock(40,40,100,fb,0)
+    if fb[1]==1:
+        fastblock(280,700,100,fb,0)
+    global fspeedtoggle
+    fspeedtoggle=0
+    fspeedcontrol(fspeedtoggle)
 
         #Speed Control Function
 def speedcontrol(speedtoggle):
@@ -252,9 +274,38 @@ def speedcontrol(speedtoggle):
         else:
             lead_x_change=2
         if lead_y_change<0:
-           lead_y_change=-2
+            lead_y_change=-2
         else:
-           lead_y_change=2
+            lead_y_change=2
+    if speedtoggle==2:
+        if lead_x_change>0:
+            lead_x_change=4
+        else:
+            lead_x_change=-4
+        if lead_y_change>0:
+            lead_y_change=4
+        else:
+            lead_y_change=-4 
+
+def fspeedcontrol(speedtoggle):
+    global lead_x_change
+    global lead_y_change
+    for i in range(2):
+        if fc[i]<500 and fc[i]>0:
+            fc[i]-=1
+            speedtoggle=1
+            break
+        elif fc[i]==0:
+            speedtoggle=2
+    if speedtoggle==1:
+        if lead_x_change<0:
+            lead_x_change=-8
+        else:
+            lead_x_change=8
+        if lead_y_change<0:
+            lead_y_change=-8
+        else:
+            lead_y_change=8
     if speedtoggle==2:
         if lead_x_change>0:
             lead_x_change=4
@@ -292,75 +343,79 @@ def brickrestart():
         l26[i]=1
     for i in range(9):
         l27[i]=1
+    for i in range(2):
+        fb[i]=1
 
             #Game Loop Function
-#play=False
-#quit1=False
+play=False
+quit1=False
 def gameloop():
-            #Game Ending control Variables
+        #Game Ending control Variables
     gameexit=False
     gameover=False
 
-        #Referencing global scope variables
+    #Referencing global scope variables
 
-            #Ball Initialization
+        #Ball Initialization
     global lead_x
     global lead_y
     lead_x=display_width/2
     lead_y=display_height/2
-            #Bar initialization
+
+        #Bar initialization
     global lead_x_bar
     global lead_y_bar
     lead_x_bar=display_width/2
 
-            #Block Size Initialization
+        #Block Size Initialization
     global block_size
     block_size=10
 
-            #Ball Change Initialization
+        #Ball Change Initialization
     global lead_x_change
     global lead_y_change
 
-            #Bar control change variable
+        #Bar control change variable
     global leadbar_x_change
     leadbar_x_change=0
 
-            #FPS (Frames per second)
+        #FPS (Frames per second)
     global fps
 
-            #Bar size
+        #Bar size
     global bar_size
 
-            #Score
+        #Score
     global score
-            
-            #Brick Row initialization
+        
+        #Brick Row initialization
     global l
     global l1,l2,l3,l4,l5
 
-            #Life Scoping
+        #Life Scoping
     global life
     life=2
-    
+        #Unknown Variables
     global z
     brickrestart()        
-    
+        #Broken Time loop list , I think
+    #l4=[1,1,1,1,1]
+    #l5=[1,1,1,1,1]
     global bge
-
+    #quit1=False
     global play
     global quit1
-
-        #Main Game Loop
+    #Main Game Loop
     def mainmenu():
-        while not quit1:
+        while not quit1:	
             gameDisplay.fill(black)
             mouse_x,mouse_y=pygame.mouse.get_pos()
             global white,bge,red,yellow
             gameDisplay.blit(bge,(0,0))
             screen_text=font.render("BREAKOUT",True,red)
             gameDisplay.blit(screen_text,[350,0])
-			#screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
-        		#gameDisplay.blit(screen_text,[0,display_height/6])
+            #screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
+            #gameDisplay.blit(screen_text,[0,display_height/6])
             if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
                 pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
                 screen_text=font.render("PLAY",True,red)
@@ -390,51 +445,51 @@ def gameloop():
                         gameover=False
                         global quit1
                         quit1=True
-    if (play==False):
+    if(play==False):
         global quit1
-        quit=False
+        quit1=False
         mainmenu()
     while (not gameexit) and play:
         mouse_x,mouse_y=pygame.mouse.get_pos()
-                #Event Handling - Left,Right,Quiting of game
+        #Event Handling - Left,Right,Quiting of game
         z1=0
         z2=0
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                gameexit=True
-            if event.type ==pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    leadbar_x_change=-10
-                    z1=1
-                if event.key == pygame.K_RIGHT:
-                    leadbar_x_change=10
-                    z2=1
-            if event.type ==pygame.KEYUP:
-                leadbar_x_change=0
-                    
-                #Dividing bar in 3 parts, different reflection for each position                       
+                if event.type == pygame.QUIT:
+                        gameexit=True
+                if event.type ==pygame.KEYDOWN:
+                        if event.key == pygame.K_LEFT:
+                                leadbar_x_change=-10
+                                z1=1
+                        if event.key == pygame.K_RIGHT:
+                                leadbar_x_change=10
+                                z2=1
+                if event.type ==pygame.KEYUP:
+                        leadbar_x_change=0
+            
+        #Dividing bar in 3 parts, different reflection for each position                       
         if lead_x>=lead_x_bar and lead_x<(lead_x_bar+bar_size/3) and (lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar):
-            if(lead_x_change>0):
-                lead_y_change=-lead_y_change
-                lead_x_change=-lead_x_change
-            else:
-                lead_y_change=-lead_y_change
+                if(lead_x_change>0):
+                        lead_y_change=-lead_y_change
+                        lead_x_change=-lead_x_change
+                else:
+                        lead_y_change=-lead_y_change
         if lead_x>=lead_x_bar+bar_size/3 and lead_x<(lead_x_bar+(bar_size*2)/3) and lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar:
-            lead_y_change=-lead_y_change
+                lead_y_change=-lead_y_change
         if lead_x>=lead_x_bar+(bar_size*2)/3 and lead_x<=(lead_x_bar+bar_size) and lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar:
-            if(lead_x_change<0):
-                lead_y_change=-lead_y_change
-                lead_x_change=-lead_x_change
-            else:
-                lead_y_change=-lead_y_change
+                if(lead_x_change<0):
+                        lead_y_change=-lead_y_change
+                        lead_x_change=-lead_x_change
+                else:
+                        lead_y_change=-lead_y_change
 
-                #Reflection of ball at the edge of the screen
+        #Reflection of ball at the edge of the screen
         if lead_x+block_size>=display_width or lead_x<=0 :
-            lead_x_change=-lead_x_change
+                lead_x_change=-lead_x_change
         if lead_y<=0:
-            lead_y_change=-lead_y_change
+                lead_y_change=-lead_y_change
 
-                #Game over when ball goes down under the screen and the bar misses
+        #Game over when ball goes down under the screen and the bar misses
         if lead_y>display_height:
             if life==0:
                 global bge
@@ -450,85 +505,85 @@ def gameloop():
                 time.sleep(1)
                 continue
 
-                #Replayability after death 
+        #Replayability after death 
         while gameover== True:
-            gameDisplay.fill(black)
-            mouse_x,mouse_y=pygame.mouse.get_pos()
-            global white,bge,red,yellow
-            gameDisplay.blit(bge,(0,0))
-            screen_text=font.render("GAMEOVER",True,red)
-            gameDisplay.blit(screen_text,[350,0])
-			#screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
-        		#gameDisplay.blit(screen_text,[0,display_height/6])
-            if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
-                pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
-                screen_text=font.render("PLAYAGAIN",True,red)
-            else:
-                pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
-                screen_text=font.render("PLAYAGAIN",True,(0,255,255))
-            gameDisplay.blit(screen_text,[310,300])
-            if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
-                pygame.draw.rect(gameDisplay,yellow,[300,200,220,60])
-                screen_text=font.render("MAINMENU",True,red)
-            else:
-                pygame.draw.rect(gameDisplay,(0,0,255),[300,200,220,60])
-                screen_text=font.render("MAINMENU",True,(0,255,255))
-            gameDisplay.blit(screen_text,[310,200])
-            if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460):
-                pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
-                screen_text=font.render("QUIT",True,red)
-            else:
-                pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
-                screen_text=font.render("QUIT",True,(0,255,255))
-            gameDisplay.blit(screen_text,[350,400])
-            pygame.display.update()
-	    for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q:
-                        gameexit=True
-                        gameover=False
-                    if event.key == pygame.K_c:
-                        time.sleep(1)
-                        brickrestart()
-                        score=0
-                        gameloop()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
-                        brickrestart()
-                        score=0
-                        gameloop()
-                    if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
-                        gameexit=True
-                        gameover=False
-                    if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
-                        brickrestart()
-                        score=0
-                        global play
-                        play=False
-                        gameloop()
+                gameDisplay.fill(black)
+                mouse_x,mouse_y=pygame.mouse.get_pos()
+                global white,bge,red,yellow
+                gameDisplay.blit(bge,(0,0))
+                screen_text=font.render("GAMEOVER",True,red)
+                gameDisplay.blit(screen_text,[350,0])
+                #screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
+                #gameDisplay.blit(screen_text,[0,display_height/6])
+                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
+                    pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
+                    screen_text=font.render("PLAYAGAIN",True,red)
+                else:
+                    pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                    screen_text=font.render("PLAYAGAIN",True,(0,255,255))
+                gameDisplay.blit(screen_text,[310,300])
+                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
+                    pygame.draw.rect(gameDisplay,yellow,[300,200,220,60])
+                    screen_text=font.render("MAINMENU",True,red)
+                else:
+                    pygame.draw.rect(gameDisplay,(0,0,255),[300,200,220,60])
+                    screen_text=font.render("MAINMENU",True,(0,255,255))
+                gameDisplay.blit(screen_text,[310,200])
+                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460):
+                    pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+                    screen_text=font.render("QUIT",True,red)
+                else:
+                    pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                    screen_text=font.render("QUIT",True,(0,255,255))
+                gameDisplay.blit(screen_text,[350,400])
+                pygame.display.update()
+                for event in pygame.event.get():
+                        if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_q:
+                                        gameexit=True
+                                        gameover=False
+                                if event.key == pygame.K_c:
+                                        time.sleep(1)
+                                        brickrestart()
+                                        score=0
+                                        gameloop()
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                                if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
+                                    brickrestart()
+                                    score=0
+                                    gameloop()
+                                if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
+                                    gameexit=True
+                                    gameover=False
+                                if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
+                                    brickrestart()
+                                    score=0
+                                    global play
+                                    play=False
+                                    gameloop()
 
-    
-                #Checking bar edge so that it doesn't go off screen	
+                    
+        #Checking bar edge so that it doesn't go off screen	
         if(lead_x_bar<=display_width-bar_size and lead_x_bar>-1):
-            lead_x_bar +=leadbar_x_change
+                lead_x_bar +=leadbar_x_change
         if(lead_x_bar<=0):
-            lead_x_bar=0
+                lead_x_bar=0
         if(lead_x_bar>=display_width-bar_size):
-            lead_x_bar=display_width-bar_size
+                lead_x_bar=display_width-bar_size
 
-                #Getting the screen ready
+        #Getting the screen ready
         gameDisplay.fill(white)
         gameDisplay.blit(bg,(0,0))
         pygame.draw.rect(gameDisplay,red,[lead_x_bar,lead_y_bar,bar_size,block_size])
-        	
-                #Drawing the ball
+        
+        #Drawing the ball
         pygame.draw.rect(gameDisplay,black,[lead_x,lead_y,block_size,block_size])
 
-                #Drawing the level
-        level()
-                #level2()
+        #Drawing the level
+        #level()
+        level2()
 
-                #Displaying the score
+        #Displaying the score
         font1=pygame.font.SysFont(None,100)
         screen_text =font.render("Score "+str(score),True,black)
         gameDisplay.blit(screen_text,[0,0])
@@ -539,36 +594,32 @@ def gameloop():
                 screen_text=font.render("Time "+str(tc[i]),True,black)
                 gameDisplay.blit(screen_text,[(i+1)*200,0])
 
-                #Changing the ball position for the next loop
+        #Changing the ball position for the next loop
         lead_x += lead_x_change
         lead_y += lead_y_change
 
-                #Updating the display
+        #Updating the display
         pygame.display.update()
 
-                #Controlling the Frames per second (FPS) //60 For Now
+        #Controlling the Frames per second (FPS) //60 For Now
         clock.tick(2*fps)
-        
-        #Ending Pygame
+    
+    #Ending Pygame
+
     pygame.quit()
     quit()
 
 #Calling the Function which runs all the Code for the game
 gameloop()
-
-
-
-
 #Things to be done
-#1. Main Menu
-#2. Level Creation - Fixing level and maybe new level
-
-#2nd priority
-#2. Power ups - Fireball, Death Block(Life), Life Block, Score Multiplier Blocks
-#3. Colors for the block, Image Loading
-
-#3rd priority
-#Audio
-
-
-
+#        First Priority
+# Reflection Sounds
+# Choice of level in main menu
+#        Second Priority
+# Fireball powerup from top?
+# Fast Ball Brick Image
+# level 1 slight redesign
+# the time counter overlaps with life counter
+# Modes (Reflection/no side reflection) implementation
+# Exploding brick
+# Time Reset Function
