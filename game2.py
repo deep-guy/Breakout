@@ -15,6 +15,7 @@ black=(0,0,0)
 red=(255,0,0)
 green=(0,255,0)
 blue=(0,0,255)
+yellow=(255,255,0)
 
             #Resoultion
 display_width=800
@@ -71,6 +72,8 @@ bg= pygame.image.load("sk.png")
 bg= pygame.transform.scale(bg,(display_width,display_height))
 brick= pygame.image.load("brick.png")
 brickgreen=pygame.image.load("gb1.jpg")
+bge= pygame.image.load("bgexit.jpg")
+bge= pygame.transform.scale(bge,(display_width,display_height))
 
             #Font Loading
 font=pygame.font.SysFont(None,50)
@@ -268,9 +271,10 @@ def gameloop():
 	#l5=[1,1,1,1,1]
 
         #Main Game Loop
+        gameDisplay.blit(bge,(0,0))
 
 	while not gameexit:
-
+                mouse_x,mouse_y=pygame.mouse.get_pos()
                 #Event Handling - Left,Right,Quiting of game
 		z1=0
 		z2=0
@@ -312,6 +316,8 @@ def gameloop():
                 #Game over when ball goes down under the screen and the bar misses
         	if lead_y>display_height:
                     if life==0:
+                        global bge
+                        gameDisplay.blit(bge,(0,0))
                         message_to_screen("game over",red)
 			pygame.display.update()
 			time.sleep(2)
@@ -326,9 +332,27 @@ def gameloop():
                 #Replayability after death 
 		while gameover== True:
 			gameDisplay.fill(black)
-			global white
-			screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
-        		gameDisplay.blit(screen_text,[0,display_height/6])
+                        mouse_x,mouse_y=pygame.mouse.get_pos()
+			global white,bge,red,yellow
+                        gameDisplay.blit(bge,(0,0))
+                        screen_text=font.render("GAMEOVER",True,red)
+                        gameDisplay.blit(screen_text,[350,0])
+			#screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
+        		#gameDisplay.blit(screen_text,[0,display_height/6])
+                        if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
+                            pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
+                            screen_text=font.render("PLAYAGAIN",True,red)
+                        else:
+                            pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                            screen_text=font.render("PLAYAGAIN",True,(0,255,255))
+                        gameDisplay.blit(screen_text,[310,300])
+                        if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460):
+                            pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+                            screen_text=font.render("QUIT",True,red)
+                        else:
+                            pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                            screen_text=font.render("QUIT",True,(0,255,255))
+                        gameDisplay.blit(screen_text,[350,400])
 			pygame.display.update()
 			for event in pygame.event.get():
                                 if event.type == pygame.KEYDOWN:
@@ -336,10 +360,19 @@ def gameloop():
                                                 gameexit=True
                                                 gameover=False
                                         if event.key == pygame.K_c:
+                                                time.sleep(1)
                                                 brickrestart()
                                                 score=0
                                                 gameloop()
-  
+                                if event.type == pygame.MOUSEBUTTONDOWN:
+                                        if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
+                                            brickrestart()
+                                            score=0
+                                            gameloop()
+                                        if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
+                                            gameexit=True
+                                            gameover=False
+
 			    
                 #Checking bar edge so that it doesn't go off screen	
 		if(lead_x_bar<=display_width-bar_size and lead_x_bar>-1):
