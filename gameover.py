@@ -719,21 +719,43 @@ def gameloop():
         if lead_x>=lead_x_bar and lead_x<(lead_x_bar+bar_size/3) and (lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar):
                 if(lead_x_change>0):
                         lead_y_change=-lead_y_change
-                        lead_x_change=-lead_x_change
+                        if (leadbar_x_change == 0 ):#and lead_x_change != 0):
+                            lead_x_change=-lead_x_change
+                        elif (leadbar_x_change > 0):# and lead_x_change != 0):
+                            lead_x_change = -(lead_x_change) + 2
+                        elif (leadbar_x_change < 0):# and lead_x_change != 0):
+                            lead_x_change = -(lead_x_change) - 2
                         pygame.mixer.Sound.play(bounce_sound)
                 else:
                         lead_y_change=-lead_y_change
+                        if (leadbar_x_change > 0):# and lead_x_change != 0):
+                            lead_x_change += 2
+                        elif (leadbar_x_change < 0):# and lead_x_change != 0):
+                            lead_x_change -= 2
                         pygame.mixer.Sound.play(bounce_sound)
         if lead_x>=lead_x_bar+bar_size/3 and lead_x<(lead_x_bar+(bar_size*2)/3) and lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar:
                 lead_y_change=-lead_y_change
+                if (leadbar_x_change > 0):# and lead_x_change != 0):
+                    lead_x_change += 2
+                elif (leadbar_x_change < 0):# and lead_x_change != 0):
+                    lead_x_change -= 2
                 pygame.mixer.Sound.play(bounce_sound)
         if lead_x>=lead_x_bar+(bar_size*2)/3 and lead_x<=(lead_x_bar+bar_size) and lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar:
                 if(lead_x_change<0):
                         lead_y_change=-lead_y_change
-                        lead_x_change=-lead_x_change
+                        if (leadbar_x_change == 0):# and lead_x_change != 0):
+                            lead_x_change=-lead_x_change
+                        elif (leadbar_x_change > 0):# and lead_x_change != 0):
+                            lead_x_change = -(lead_x_change) + 2
+                        elif (leadbar_x_change < 0):# and lead_x_change != 0):
+                            lead_x_change = -(lead_x_change) - 2
                         pygame.mixer.Sound.play(bounce_sound)
                 else:
                         lead_y_change=-lead_y_change
+                        if (leadbar_x_change > 0):# and lead_x_change != 0):
+                            lead_x_change += 2
+                        elif (leadbar_x_change < 0):# and lead_x_change != 0):
+                            lead_x_change -= 2
                         pygame.mixer.Sound.play(bounce_sound)
 
         #Reflection of ball at the edge of the screen
