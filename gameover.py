@@ -84,14 +84,23 @@ life=0
 
         #Graphics Loading
             #Image Loading
-bg= pygame.image.load("sk.png")
+bg= pygame.image.load("background1.jpg")
 bg= pygame.transform.scale(bg,(display_width,display_height))
 brick= pygame.image.load("brick.png")
 brickgreen=pygame.image.load("gb1.jpg")
-bge= pygame.image.load("bgexit.jpg")
+bge= pygame.image.load("background.jpg")
 bge= pygame.transform.scale(bge,(display_width,display_height))
 iceball=pygame.image.load("iceball.jpg")
 iceball=pygame.transform.scale(iceball,(10,10))
+text=[]
+for x in range(1,15):
+    b="text/text"+str(x)+".png"
+    b1=pygame.image.load(b)
+    text.append(b1)
+button=pygame.image.load("button.png")
+button=pygame.transform.scale(button,(250,60))
+button1=pygame.image.load("button1.png")
+button1=pygame.transform.scale(button1,(250,60))
             #Font Loading
 font=pygame.font.SysFont(None,50)
 
@@ -527,30 +536,45 @@ def gameloop():
                 global white,bge,red,yellow
                 gameDisplay.blit(bge,(0,0))
                 screen_text=font.render("BREAKOUT",True,red)
-                gameDisplay.blit(screen_text,[350,0])
+                #gameDisplay.blit(screen_text,[350,0])
+                x=pygame.transform.scale(text[0],(400,200))
+                gameDisplay.blit(x,[200,0])
                 #screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
                 #gameDisplay.blit(screen_text,[0,display_height/6])
                 if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
-                    pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
+                    #pygame.draw.rect(gameDisplay,yellow,[300,300,220,60]) 
+                    gameDisplay.blit(button,(300,300))
                     screen_text=font.render("MEDIUM",True,red)
                 else:
-                    pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                    #pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                    gameDisplay.blit(button1,(300,300))
                     screen_text=font.render("MEDIUM",True,(0,255,255))
-                gameDisplay.blit(screen_text,[310,300])
+                #gameDisplay.blit(screen_text,[310,300])
+                x=pygame.transform.scale(text[9],(200,40))
+                gameDisplay.blit(x,(320,310))
+                
                 if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
-                    pygame.draw.rect(gameDisplay,yellow,[300,200,220,60])
+                    #pygame.draw.rect(gameDisplay,yellow,[300,200,220,60])
+                    gameDisplay.blit(button,(300,200))
                     screen_text=font.render("EASY",True,red)
                 else:
-                    pygame.draw.rect(gameDisplay,(0,0,255),[300,200,220,60])
+                    #pygame.draw.rect(gameDisplay,(0,0,255),[300,200,220,60])
+                    gameDisplay.blit(button1,(300,200))
                     screen_text=font.render("EASY",True,(0,255,255))
-                gameDisplay.blit(screen_text,[310,200])
+                #gameDisplay.blit(screen_text,[310,200])
+                x=pygame.transform.scale(text[7],(200,40))
+                gameDisplay.blit(x,(320,210))
                 if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460):
-                    pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+                    #pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+                    gameDisplay.blit(button,(300,400))
                     screen_text=font.render("HARD",True,red)
                 else:
-                    pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                    #pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                    gameDisplay.blit(button1,(300,400))
                     screen_text=font.render("HARD",True,(0,255,255))
-                gameDisplay.blit(screen_text,[350,400])
+                #gameDisplay.blit(screen_text,[350,400])
+                x=pygame.transform.scale(text[8],(200,40))
+                gameDisplay.blit(x,(320,410))
                 pygame.display.update()
                 for event in pygame.event.get():
                         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -574,34 +598,48 @@ def gameloop():
             mouse_x,mouse_y=pygame.mouse.get_pos()
             global white,bge,red,yellow
             gameDisplay.blit(bge,(0,0))
-            screen_text=font.render("BREAKOUT",True,red)
-            gameDisplay.blit(screen_text,[350,0])
+            #screen_text=font.render("BREAKOUT",True,red)
+            #gameDisplay.blit(screen_text,[350,0])
+            gameDisplay.blit(bge,(0,0))
+            x=pygame.transform.scale(text[0],(400,200))
+            gameDisplay.blit(x,[200,0])
             #screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
             #gameDisplay.blit(screen_text,[0,display_height/6])
-            if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
-                pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
+            if not(mouse_x>=300 and mouse_x<=550 and mouse_y>=300 and mouse_y<=360):
+                #pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
+                gameDisplay.blit(button,(300,300))
                 screen_text=font.render("L=1",True,red)
+
             else:
-                pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                #pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                gameDisplay.blit(button1,(300,300))
                 screen_text=font.render("L=1",True,(0,255,255))
-            gameDisplay.blit(screen_text,[310,300])
-            if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460):
-                pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+            #gameDisplay.blit(screen_text,[310,300])
+            x=pygame.transform.scale(text[5],(200,40))
+            gameDisplay.blit(x,(320,310))
+            if not(mouse_x>=300 and mouse_x<=550 and mouse_y>=400 and mouse_y<=460):
+                #pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+                gameDisplay.blit(button,(300,400))
                 screen_text=font.render("L=2",True,red)
             else:
-                pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                #pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                gameDisplay.blit(button1,(300,400))
                 screen_text=font.render("L=2",True,(0,255,255))
-            gameDisplay.blit(screen_text,[350,400])
+            #gameDisplay.blit(screen_text,[350,400])
+            x=pygame.transform.scale(text[6],(200,40))
+            gameDisplay.blit(x,(320,410))
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     global levels
-                    if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
+                    if mouse_x>=300 and mouse_x<=550 and mouse_y>=300 and mouse_y<=360:
                         levels=level
                         global quit2
                         quit2=True
-                    if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
+                    if mouse_x>=300 and mouse_x<=550 and mouse_y>=400 and mouse_y<=460:
                         levels=level2
+                        global levels
+                        levelsa=2
                         global quit2
                         quit2=True
         difficultyselect()
@@ -610,30 +648,38 @@ def gameloop():
         while not quit1:	
             gameDisplay.fill(black)
             mouse_x,mouse_y=pygame.mouse.get_pos()
-            global white,bge,red,yellow
+            global white,bge,red,yellow,button,button1
             gameDisplay.blit(bge,(0,0))
-            screen_text=font.render("BREAKOUT",True,red)
-            gameDisplay.blit(screen_text,[350,0])
+            x=pygame.transform.scale(text[0],(400,200))
+            gameDisplay.blit(x,[200,0])
             #screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
             #gameDisplay.blit(screen_text,[0,display_height/6])
-            if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
-                pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
-                screen_text=font.render("PLAY",True,red)
+            if not(mouse_x>=300 and mouse_x<=550 and mouse_y>=300 and mouse_y<=360):
+                #pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
+                gameDisplay.blit(button,(300,300))
+                #screen_text=font.render("PLAY",True,red)
             else:
-                pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                #pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                gameDisplay.blit(button1,(300,300))
                 screen_text=font.render("PLAY",True,(0,255,255))
-            gameDisplay.blit(screen_text,[310,300])
-            if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460):
-                pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
-                screen_text=font.render("QUIT",True,red)
+            #gameDisplay.blit(screen_text,[310,300])
+            x=pygame.transform.scale(text[3],(200,40))
+            gameDisplay.blit(x,(325,310))
+            if not(mouse_x>=300 and mouse_x<=550 and mouse_y>=400 and mouse_y<=460):
+                #pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+                gameDisplay.blit(button,(300,400))
+                #screen_text=font.render("QUIT",True,red)
             else:
-                pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
-                screen_text=font.render("QUIT",True,(0,255,255))
-            gameDisplay.blit(screen_text,[350,400])
+                #pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                gameDisplay.blit(button1,(300,400))
+                #screen_text=font.render("QUIT",True,(0,255,255))
+            #gameDisplay.blit(screen_text,[350,400])
+            x=pygame.transform.scale(text[4],(150,40))
+            gameDisplay.blit(x,(340,410))            
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
+                    if mouse_x>=300 and mouse_x<=550 and mouse_y>=300 and mouse_y<=360:
                         brickrestart()
                         score=0
                         global play
@@ -641,7 +687,7 @@ def gameloop():
                         global quit1
                         quit1=True
                         levelselect()
-                    if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
+                    if mouse_x>=300 and mouse_x<=550 and mouse_y>=400 and mouse_y<=460:
                         gameexit=True
                         gameover=False
                         global quit1
@@ -703,7 +749,9 @@ def gameloop():
             if life==0:
                 global bge
                 gameDisplay.blit(bge,(0,0))
-                message_to_screen("game over",red)
+                #message_to_screen("game over",red)
+                x=pygame.transform.scale(text[1],(400,200))
+                gameDisplay.blit(x,[200,200])
                 pygame.display.update()
                 time.sleep(2)
                 gameover=True
@@ -721,31 +769,46 @@ def gameloop():
                 mouse_x,mouse_y=pygame.mouse.get_pos()
                 global white,bge,red,yellow
                 gameDisplay.blit(bge,(0,0))
-                screen_text=font.render("GAMEOVER",True,red)
-                gameDisplay.blit(screen_text,[350,0])
+                #screen_text=font.render("GAMEOVER",True,red)
+                #gameDisplay.blit(screen_text,[350,0])
+                x=pygame.transform.scale(text[1],(400,200))
+                gameDisplay.blit(x,[200,0])                
                 #screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
                 #gameDisplay.blit(screen_text,[0,display_height/6])
                 if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
-                    pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
+                    #pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
+                    gameDisplay.blit(button,(300,300))
                     screen_text=font.render("PLAYAGAIN",True,red)
                 else:
-                    pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                    #pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                    gameDisplay.blit(button1,(300,300))
                     screen_text=font.render("PLAYAGAIN",True,(0,255,255))
-                gameDisplay.blit(screen_text,[310,300])
+                #gameDisplay.blit(screen_text,[310,300])
+                x=pygame.transform.scale(text[10],(200,40))
+                gameDisplay.blit(x,(325,310))
                 if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
-                    pygame.draw.rect(gameDisplay,yellow,[300,200,220,60])
+                    #pygame.draw.rect(gameDisplay,yellow,[300,200,220,60])
+                    gameDisplay.blit(button,(300,200))
                     screen_text=font.render("MAINMENU",True,red)
                 else:
-                    pygame.draw.rect(gameDisplay,(0,0,255),[300,200,220,60])
+                    #pygame.draw.rect(gameDisplay,(0,0,255),[300,200,220,60])
+                    gameDisplay.blit(button1,(300,200))
                     screen_text=font.render("MAINMENU",True,(0,255,255))
-                gameDisplay.blit(screen_text,[310,200])
+                #gameDisplay.blit(screen_text,[310,200])
+                x=pygame.transform.scale(text[11],(200,40))
+                gameDisplay.blit(x,(325,210))
                 if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460):
-                    pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+                    #pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+                    gameDisplay.blit(button,(300,400))
                     screen_text=font.render("QUIT",True,red)
                 else:
-                    pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                    #pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                    gameDisplay.blit(button1,(300,400))
+                                        
                     screen_text=font.render("QUIT",True,(0,255,255))
-                gameDisplay.blit(screen_text,[350,400])
+                #gameDisplay.blit(screen_text,[350,400])
+                x=pygame.transform.scale(text[4],(200,40))
+                gameDisplay.blit(x,(325,410))
                 pygame.display.update()
                 for event in pygame.event.get():
                         if event.type == pygame.KEYDOWN:
