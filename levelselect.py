@@ -5,6 +5,7 @@ import pygame
 import time
 import random
 import math
+import os
 
             #Initializing pygame
 pygame.init()
@@ -19,16 +20,22 @@ yellow=(255,255,0)
 
         #Loading the sounds
 background_music = pygame.mixer.music.load("background.mpeg")
-hit_sound = pygame.mixer.Sound("brick.ogg")
+hit_sound = pygame.mixer.Sound("brick_1.ogg")
 bounce_sound = pygame.mixer.Sound("hit.ogg")
 life_sound = pygame.mixer.Sound("life.ogg")
 ice_sound = pygame.mixer.Sound("ice.ogg")
+speed_sound = pygame.mixer.Sound("speedup.ogg")
 pygame.mixer.music.play(-1)
 
         #Resoultion
 display_width=800
 display_height=600
 
+        #Opens the 'PyGame' window at a specific position on the screencreen
+window_posi_x = 400
+window_posi_y = 200
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" %(window_posi_x, window_posi_y)
+os.environ['SDL_VIDEO_CENTERED'] = '0'
             #Defining display
 gameDisplay=pygame.display.set_mode((display_width,display_height))
 
@@ -138,6 +145,7 @@ def fastblock(blx,bly,bls,fb,i):
         fb[i]=0
         global lead_y_change
         lead_y_change=-lead_y_change
+        hit_sound = pygame.mixer.Sound.play(speed_sound)
         global score
         global tc
         fc[i]-=1
@@ -359,6 +367,7 @@ def brickrestart():
 play=False
 quit1=False
 quit2=False
+quit3 = False
 levels=level
 def gameloop():
         #Game Ending control Variables
@@ -416,6 +425,54 @@ def gameloop():
     #quit1=False
     global play
     global quit1
+    def difficultyselect():
+        global quit3
+        while not quit3:
+                gameDisplay.fill(black)
+                mouse_x,mouse_y=pygame.mouse.get_pos()
+                global white,bge,red,yellow
+                gameDisplay.blit(bge,(0,0))
+                screen_text=font.render("BREAKOUT",True,red)
+                gameDisplay.blit(screen_text,[350,0])
+                #screen_text =font.render("Press 'q' to exit the game  or 'c' to play again",True,white)
+                #gameDisplay.blit(screen_text,[0,display_height/6])
+                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
+                    pygame.draw.rect(gameDisplay,yellow,[300,300,220,60])
+                    screen_text=font.render("MEDIUM",True,red)
+                else:
+                    pygame.draw.rect(gameDisplay,(0,0,255),[300,300,220,60])
+                    screen_text=font.render("MEDIUM",True,(0,255,255))
+                gameDisplay.blit(screen_text,[310,300])
+                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
+                    pygame.draw.rect(gameDisplay,yellow,[300,200,220,60])
+                    screen_text=font.render("EASY",True,red)
+                else:
+                    pygame.draw.rect(gameDisplay,(0,0,255),[300,200,220,60])
+                    screen_text=font.render("EASY",True,(0,255,255))
+                gameDisplay.blit(screen_text,[310,200])
+                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460):
+                    pygame.draw.rect(gameDisplay,yellow,[305,400,200,60])
+                    screen_text=font.render("HARD",True,red)
+                else:
+                    pygame.draw.rect(gameDisplay,(0,0,255),[305,400,200,60])
+                    screen_text=font.render("HARD",True,(0,255,255))
+                gameDisplay.blit(screen_text,[350,400])
+                pygame.display.update()
+                for event in pygame.event.get():
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                                if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
+                                    global bar_size,quit3
+                                    bar_size=100
+                                    quit3=True
+                                if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
+                                    global bar_size,quit3
+                                    bar_size=50
+                                    quit3=True
+                                if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
+                                        global bar_size,quit3
+                                        bar_size=150
+                                        quit3=True
+
     #Main Game Loop
     def levelselect():
         while not quit2:	
@@ -453,6 +510,7 @@ def gameloop():
                         levels=level2
                         global quit2
                         quit2=True
+        difficultyselect()
 
     def mainmenu():
         while not quit1:	
