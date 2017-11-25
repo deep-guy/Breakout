@@ -100,10 +100,22 @@ pause=pygame.transform.scale(pause,(30,30))
 pause1=pygame.image.load("pause1.png")
 pause1=pygame.transform.scale(pause1,(30,30))
 text=[]
-for x in range(1,16):
+for x in range(1,18):
     b="text/text"+str(x)+".png"
     b1=pygame.image.load(b)
     text.append(b1)
+frames=[]
+for x in range(253,501):
+    b="frames/scene00"+str(x)+".png"
+    b1=pygame.image.load(b)
+    b1=pygame.transform.scale(b1,(200,200))
+    frames.append(b1)
+frames1=[]
+for x in range(181,501):
+    b="frames2/scene00"+str(x)+".png"
+    b1=pygame.image.load(b)
+    b1=pygame.transform.scale(b1,(200,200))
+    frames1.append(b1)
 button=pygame.image.load("button.png")
 button=pygame.transform.scale(button,(250,60))
 button1=pygame.image.load("button1.png")
@@ -487,6 +499,7 @@ quit1=False
 quit2=False
 quit3 = False
 quit4=False
+quit5=False
 levels=level
 
 def gameo():
@@ -563,7 +576,69 @@ def gameloop():
     global bge
     #quit1=False
     global play
-    global quit1,quit4
+    global quit1,quit4,quit5
+
+
+    def modes():
+            global quit5 
+            i1=0
+            i2=0
+            while not quit5:
+                gameDisplay.fill(black)
+                mouse_x,mouse_y=pygame.mouse.get_pos()
+                global white,bge,red,yellow
+                gameDisplay.blit(bge,(0,0))
+                '''
+                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
+                    gameDisplay.blit(button,(300,300))
+                    screen_text=font.render("playagain",True,red)
+                else:
+                    gameDisplay.blit(button1,(300,300))
+                    screen_text=font.render("playagain",True,(0,255,255))
+                x=pygame.transform.scale(text[9],(200,40))
+                gameDisplay.blit(x,(320,310))
+                '''
+                if(i1>248*4-3):
+                    i1=0 
+                gameDisplay.blit(frames[i1/4],(320,1))
+                i1=i1+1
+                if(i2>319*4-3):
+                    i2=0 
+                gameDisplay.blit(frames1[i2/4],(320,300))
+                i2=i2+1
+                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
+                    gameDisplay.blit(button,(300,200))
+                    screen_text=font.render("resume",True,red)
+                else:
+                    gameDisplay.blit(button1,(300,200))
+                    screen_text=font.render("resume",True,(0,255,255))
+                x=pygame.transform.scale(text[15],(200,40))
+                gameDisplay.blit(x,(320,210))
+                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=500 and mouse_y<=560):
+                    gameDisplay.blit(button,(300,500))
+                    screen_text=font.render("hard",True,red)
+                else:
+                    gameDisplay.blit(button1,(300,500))
+                    screen_text=font.render("HARD",True,(0,255,255))
+                x=pygame.transform.scale(text[16],(200,40))
+                gameDisplay.blit(x,(320,510))
+                pygame.display.update()
+                for event in pygame.event.get():
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                                #if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
+                                #    global bar_size,quit3
+                                #    bar_size=100
+                                #    quit4=True
+                                if mouse_x>=300 and mouse_x<=520 and mouse_y>=500 and mouse_y<=560:
+                                    global quit1,quit2,quit3,quit4,play,mode
+                                    mode=1
+                                    quit5=True
+                                    
+        
+                                if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
+                                    global quit4,mode
+                                    mode=2    
+                                    quit5=True
     def pausef():
             global quit4
             while not quit4:
@@ -661,15 +736,17 @@ def gameloop():
                                     global bar_size,quit3
                                     bar_size=100
                                     quit3=True
+                                    modes()
                                 if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
                                     global bar_size,quit3
                                     bar_size=50
                                     quit3=True
+                                    modes()
                                 if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
                                         global bar_size,quit3
                                         bar_size=150
                                         quit3=True
-
+                                        modes()
     #Main Game Loop
     def levelselect():
         while not quit2:
@@ -760,6 +837,7 @@ def gameloop():
         quit2=False
         quit3=False
         quit4=False
+        quit5=False
         mainmenu()
     while (not gameexit) and play:
         mouse_x,mouse_y=pygame.mouse.get_pos()
@@ -795,7 +873,7 @@ def gameloop():
                         lead_y_change=-lead_y_change
                         if (leadbar_x_change == 0 ):#and lead_x_change != 0):
                             lead_x_change=-lead_x_change
-                        elif (leadbar_x_change > 0):# and lead_x_change != 0):
+                        elif (leadbar_x_change > 0 and lead_x_change<=12):# and lead_x_change != 0):
                             lead_x_change = -(lead_x_change) + 2
                         elif (leadbar_x_change < 0):# and lead_x_change != 0):
                             lead_x_change = -(lead_x_change) - 2
