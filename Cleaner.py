@@ -24,7 +24,9 @@ hit_sound = pygame.mixer.Sound("brick_1.ogg")
 bounce_sound = pygame.mixer.Sound("hit.ogg")
 life_sound = pygame.mixer.Sound("life.ogg")
 ice_sound = pygame.mixer.Sound("ice.ogg")
+whoosh_sound = pygame.mixer.Sound("whoosh.ogg")
 speed_sound = pygame.mixer.Sound("speedup.ogg")
+blast_sound = pygame.mixer.Sound("Explosion.ogg")
 pygame.mixer.music.play(-1)
 
         #Resoultion
@@ -84,11 +86,11 @@ life=2
 
         #Graphics Loading
             #Image Loading
-bg= pygame.image.load("background1.jpg")
+bg= pygame.image.load("background2.png")
 bg= pygame.transform.scale(bg,(display_width,display_height))
 brick= pygame.image.load("brick.png")
 brickgreen=pygame.image.load("gb1.jpg")
-bge= pygame.image.load("background.jpg")
+bge= pygame.image.load("background3.jpg")
 bge= pygame.transform.scale(bge,(display_width,display_height))
 iceball=pygame.image.load("iceball.jpg")
 iceball=pygame.transform.scale(iceball,(10,10))
@@ -192,6 +194,7 @@ def ExplodingBlock1(blx,bly,bls,bb1,i):
             l2[14]=0
             l2[13]=0
             blasttime1=15
+            pygame.mixer.Sound.play(blast_sound)
         if i==1:
             global l1,l2,l3
             l1[4]=0
@@ -204,6 +207,7 @@ def ExplodingBlock1(blx,bly,bls,bb1,i):
             l3[4]=0
             l3[5]=0
             blasttime2=15
+            pygame.mixer.Sound.play(blast_sound)
 
     if bb1[i]:
         pygame.draw.rect(gameDisplay,blue,[blx,bly,bls,block_size])
@@ -225,6 +229,7 @@ def ExplodingBlock2(blx,bly,bls,bb2,i):
             l23[2]=0
             l23[3]=0
             l24[3]=0
+            pygame.mixer.Sound.play(blast_sound) 
         if i==1:
             global l1,l2,l3
             l24[6]=0
@@ -241,6 +246,7 @@ def ExplodingBlock2(blx,bly,bls,bb2,i):
             l27[7]=0
             l27[8]=0
             blasttime21=15
+            pygame.mixer.Sound.play(blast_sound) 
 
     if bb2[i]:
         pygame.draw.rect(gameDisplay,blue,[blx,bly,bls,block_size])
@@ -499,6 +505,11 @@ def gameo():
                 time.sleep(2)
                 return True
     return False
+
+
+# Implementing mode 1 and mode 2 in game:-
+mode = 2
+
 
 def gameloop():
         #Game Ending control Variables
@@ -822,11 +833,23 @@ def gameloop():
                         pygame.mixer.Sound.play(bounce_sound)
 
         #Reflection of ball at the edge of the screen
-        if lead_x+block_size>=display_width or lead_x<=0 :
-                lead_x_change=-lead_x_change
-                pygame.mixer.Sound.play(bounce_sound)
-        if lead_y<=0:
-                lead_y_change=-lead_y_change
+        global mode
+        if (mode == 1):
+            if lead_x+block_size>=display_width or lead_x<=0 :
+                    lead_x_change=-lead_x_change
+                    pygame.mixer.Sound.play(bounce_sound)
+            if lead_y<=0:
+                    lead_y_change=-lead_y_change
+                    pygame.mixer.Sound.play(bounce_sound)
+        elif (mode == 2):
+            if (lead_x >= display_width):
+                lead_x = 0
+                pygame.mixer.Sound.play(whoosh_sound)
+            elif (lead_x <= 0):
+                lead_x = display_width
+                pygame.mixer.Sound.play(whoosh_sound)
+            if lead_y <= 0:
+                lead_y_change =- lead_y_change
                 pygame.mixer.Sound.play(bounce_sound)
 
         #Game over when ball goes down under the screen and the bar misses
