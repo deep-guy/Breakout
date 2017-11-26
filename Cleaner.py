@@ -71,7 +71,7 @@ lead_y_change=-4
 leadbar_x_change=0
 
             #Frame rate
-fps=30
+fps=60
 
             #Score
 score=0
@@ -83,6 +83,18 @@ fspeedtoggle=0
             #Life
 life=2
 
+            #Quit control variables
+play=False
+quit1=False
+quit2=False
+quit3 = False
+quit4=False
+quit5=False
+
+            #Blast Time Animation Variables
+blasttime1=0
+blasttime2=0
+blasttime21=0
 
         #Graphics Loading
             #Image Loading
@@ -99,6 +111,10 @@ pause=pygame.image.load("pause.png")
 pause=pygame.transform.scale(pause,(30,30))
 pause1=pygame.image.load("pause1.png")
 pause1=pygame.transform.scale(pause1,(30,30))
+helping=pygame.image.load("Help.jpg")
+helping=pygame.transform.scale(helping,(display_width,display_height))
+
+            #Video Loading
 text=[]
 for x in range(1,18):
     b="text/text"+str(x)+".png"
@@ -123,6 +139,8 @@ button1=pygame.transform.scale(button1,(250,60))
 bomb=pygame.image.load("bomb.jpg")
 blackbrick=pygame.image.load("blackbrick.png")
 iceblock=pygame.image.load("iceblock.jpg")
+
+
             #Font Loading
 font=pygame.font.SysFont(None,50)
 
@@ -135,18 +153,13 @@ def message_to_screen(msg,color):
             #Clock Initialization
 clock=pygame.time.Clock()
 
-            #Game Initialization Screen - Start Intro Screen
-message_to_screen("Breakout!!",red)
-pygame.display.update()
-time.sleep(2)
 
             #Brick Creation Function
 def block(blx,bly,bls,l,i):
     if (lead_x>blx and lead_x<blx+bls and lead_y+block_size>bly and lead_y<bly+block_size and l[i]==1):
         l[i]=0
-        global lead_y_change
+        global lead_y_change,score
         lead_y_change=-lead_y_change
-        global score
         score +=1
         pygame.mixer.Sound.play(hit_sound)
     if l[i]:
@@ -155,14 +168,12 @@ def block(blx,bly,bls,l,i):
         brick=pygame.transform.scale(brick,(bls,block_size))
         gameDisplay.blit(brick,(blx,bly))
 
-            #Time Block - Special
+            #Time Block creation function
 def timeblock(blx,bly,bls,l,i):
     if (lead_x>blx and lead_x<blx + bls and lead_y+block_size>bly and lead_y<bly+block_size and tb[i]==1):
         tb[i]=0
-        global lead_y_change
+        global lead_y_change,score,tc
         lead_y_change=-lead_y_change
-        global score
-        global tc
         tc[i]-=1
         score +=2
         pygame.mixer.Sound.play(ice_sound)
@@ -171,28 +182,27 @@ def timeblock(blx,bly,bls,l,i):
         brick1=pygame.transform.scale(iceblock,(bls,block_size))
         gameDisplay.blit(brick1,(blx,bly))
 
+            #Fast Block creation function
 def fastblock(blx,bly,bls,fb,i):
     if (lead_x>blx and lead_x<blx + bls and lead_y+block_size>bly and lead_y<bly+block_size and fb[i]==1):
         fb[i]=0
-        global lead_y_change
+        global lead_y_change,score,tc
         lead_y_change=-lead_y_change
         hit_sound = pygame.mixer.Sound.play(speed_sound)
-        global score
-        global tc
         fc[i]-=1
         score +=2
     if fb[i]:
         pygame.draw.rect(gameDisplay,blue,[blx,bly,bls,block_size])
         brick1=pygame.transform.scale(blackbrick,(bls,block_size))
         gameDisplay.blit(brick1,(blx,bly))
-blasttime1=0
-blasttime2=0
+
+
+            #Exploding block creation function
 def ExplodingBlock1(blx,bly,bls,bb1,i):
     if (lead_x>blx and lead_x<blx + bls and lead_y+block_size>bly and lead_y<bly+block_size and bb1[i]==1):
         bb1[i]=0
-        global lead_y_change
+        global lead_y_change,score,blasttime1,blasttime2
         lead_y_change=-lead_y_change
-        global score,blasttime1,blasttime2
         score +=2
         if i==0:
             global l,l1,l2
@@ -225,13 +235,14 @@ def ExplodingBlock1(blx,bly,bls,bb1,i):
         pygame.draw.rect(gameDisplay,blue,[blx,bly,bls,block_size])
         brick1=pygame.transform.scale(bomb,(bls,block_size))
         gameDisplay.blit(brick1,(blx,bly))
-blasttime21=0
+
+
+            #Exploding Block creation function
 def ExplodingBlock2(blx,bly,bls,bb2,i):
     if (lead_x>blx and lead_x<blx + bls and lead_y+block_size>bly and lead_y<bly+block_size and bb2[i]==1):
         bb2[i]=0
-        global lead_y_change
+        global lead_y_change,score,blasttime21
         lead_y_change=-lead_y_change
-        global score,blasttime21
         score +=2
         if i==0:
             global l,l1,l2
@@ -321,10 +332,10 @@ for i in range(2):
     bb1.append(1)
     bb2.append(1)
 
-            #Level Creation Function
+        #Level Creation Function
+            #Level 1 Design
 def level():
-    global lead_x_change
-    global lead_y_change
+    global lead_x_change,lead_y_change,speedtoggle
         #Row creation for normal bricks
     for i in range(15):
         if l[i]==1:
@@ -349,13 +360,13 @@ def level():
     if tb[1]==1:
         timeblock(500,165,100,tb,1)
 
-    global speedtoggle
     speedtoggle=0
     speedcontrol(speedtoggle)
-    gameo()
+    #gameo()
+
+            #Level 2 Design
 def level2():
-    global lead_x_change
-    global lead_y_change
+    global lead_x_change,lead_y_change,fspeedtoggle
     for i in range(15):
         if i>0:
             if l21[i]==1:
@@ -389,20 +400,17 @@ def level2():
     if fb[1]==1:
         fastblock(280,200,100,fb,1)
 
-    #if bb2[0]==1:
-    #    ExplodingBlock2(100,120,100,bb2,0)
+    bb2[0]=1
     if bb2[1]==1:
         ExplodingBlock2(350,150,100,bb2,1)
-    global fspeedtoggle
     fspeedtoggle=0
     fspeedcontrol(fspeedtoggle)
-    gameo()
-        #Speed Control Function
+    #gameo()
+
+
+        #Speed Control Function - Slow block
 def speedcontrol(speedtoggle):
-    global lead_x_change
-    global lead_y_change
-    global lead_x
-    global lead_y
+    global lead_x_change,lead_y_change,lead_x,lead_y
 
     for i in range(2):
         if tc[i]<500 and tc[i]>0:
@@ -431,9 +439,9 @@ def speedcontrol(speedtoggle):
         else:
             lead_y_change=-4
 
+            #Speed control function - Fast Block
 def fspeedcontrol(speedtoggle):
-    global lead_x_change
-    global lead_y_change
+    global lead_x_change,lead_y_change
     for i in range(2):
         if fc[i]<500 and fc[i]>0:
             fc[i]-=1
@@ -460,19 +468,14 @@ def fspeedcontrol(speedtoggle):
         else:
             lead_y_change=-4
 
+            #Brick Restart Function
 def brickrestart():
-    global l
-    global l1
-    global l2
-    global l3
+    global l,l1,l2,l3,lead_x,lead_y,life,lead_x_change,lead_y_change
     for i in range(15):
         l[i]=1
         l1[i]=1
         l2[i]=1
         l3[i]=1
-    for i in range(2):
-        tb[i]=1
-        tc[i]=500
     for i in range(15):
          l21[i]=1
     for i in range(14):
@@ -492,16 +495,20 @@ def brickrestart():
         fc[i]=500
         bb1[i]=1
         bb2[i]=1
+        tb[i]=1
+        tc[i]=500
 
-            #Game Loop Function
-play=False
-quit1=False
-quit2=False
-quit3 = False
-quit4=False
-quit5=False
+    lead_x=200
+    lead_y=400
+    lead_x_bar=400-bar_size/2
+    lead_x_change=4
+    lead_y_change=-4
+    life=2
+
+            #Level control variable
 levels=level
 
+            #Game Over Checking Function
 def gameo():
     global l,l1,l2,l3,tb,l21,l22,l23,l24,l25,l26,l27,fb,bb1,bb2
     def check(q):
@@ -510,10 +517,11 @@ def gameo():
                 return 1
         return 0
     if(((check(l)+check(l1)+check(l2)+check(l3)+check(tb)+check(bb1))==0) or (check(l21)+check(l22)+check(l23)+check(l24)+check(l25)+check(l26)+check(l27)+check(fb)+check(bb2))==0):
-                global bge
+                #global bge
                 gameDisplay.blit(bge,(0,0))
                 message_to_screen("Congrats! You Won",red)
-
+                screen_text=font.render("Score: "+str(score),True,black)
+                gameDisplay.blit(screen_text,(500,500))
                 pygame.display.update()
                 time.sleep(2)
                 return True
@@ -524,61 +532,64 @@ def gameo():
 mode = 2
 
 
+            #Main Loop Calling Function
 def gameloop():
-        #Game Ending control Variables
+       
+#Game Ending control Variables
     gameexit=False
     gameover=False
 
     #Referencing global scope variables
 
-        #Ball Initialization
+#Ball 
     global lead_x
     global lead_y
     lead_x=display_width/2
     lead_y=display_height/2
 
-        #Bar initialization
+#Bar
     global lead_x_bar
     global lead_y_bar
     lead_x_bar=display_width/2
 
-        #Block Size Initialization
+#Block Size 
     global block_size
     block_size=10
 
-        #Ball Change Initialization
+#Ball Change 
     global lead_x_change
     global lead_y_change
 
-        #Bar control change variable
+#Bar control change variable
     global leadbar_x_change
     leadbar_x_change=0
 
-        #FPS (Frames per second)
+#FPS (Frames per second)
     global fps
 
-        #Bar size
+#Bar size
     global bar_size
 
-        #Score
+#Score
     global score
 
-        #Brick Row initialization
-    global l
-    global l1,l2,l3,l4,l5
-
-        #Life Scoping
+#Life Scoping
     global life
     life=2
-        #Unknown Variables
+
+#Mouse Variables
     global z
+
+#Level Initialization
     brickrestart()
+
+#Quit control variables
     global bge
-    #quit1=False
+    quit1=False
     global play
     global quit1,quit4,quit5
 
-
+#Mode level Screen
     def modes():
             global quit5 
             i1=0
@@ -588,16 +599,6 @@ def gameloop():
                 mouse_x,mouse_y=pygame.mouse.get_pos()
                 global white,bge,red,yellow
                 gameDisplay.blit(bge,(0,0))
-                '''
-                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
-                    gameDisplay.blit(button,(300,300))
-                    screen_text=font.render("playagain",True,red)
-                else:
-                    gameDisplay.blit(button1,(300,300))
-                    screen_text=font.render("playagain",True,(0,255,255))
-                x=pygame.transform.scale(text[9],(200,40))
-                gameDisplay.blit(x,(320,310))
-                '''
                 if(i1>248*4-3):
                     i1=0 
                 gameDisplay.blit(frames[i1/4],(320,1))
@@ -624,21 +625,17 @@ def gameloop():
                 gameDisplay.blit(x,(320,510))
                 pygame.display.update()
                 for event in pygame.event.get():
-                        if event.type == pygame.MOUSEBUTTONDOWN:
-                                #if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
-                                #    global bar_size,quit3
-                                #    bar_size=100
-                                #    quit4=True
-                                if mouse_x>=300 and mouse_x<=520 and mouse_y>=500 and mouse_y<=560:
-                                    global quit1,quit2,quit3,quit4,play,mode
-                                    mode=1
-                                    quit5=True
-                                    
-        
-                                if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
-                                    global quit4,mode
-                                    mode=2    
-                                    quit5=True
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if mouse_x>=300 and mouse_x<=520 and mouse_y>=500 and mouse_y<=560:
+                            global quit1,quit2,quit3,quit4,play,mode
+                            mode=1
+                            quit5=True
+                        if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
+                            global quit4,mode
+                            mode=2    
+                            quit5=True
+
+#Pause level screen
     def pausef():
             global quit4
             while not quit4:
@@ -649,16 +646,6 @@ def gameloop():
                 screen_text=font.render("BREAKOUT",True,red)
                 x=pygame.transform.scale(text[0],(400,200))
                 gameDisplay.blit(x,[200,0])
-                '''
-                if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360):
-                    gameDisplay.blit(button,(300,300))
-                    screen_text=font.render("playagain",True,red)
-                else:
-                    gameDisplay.blit(button1,(300,300))
-                    screen_text=font.render("playagain",True,(0,255,255))
-                x=pygame.transform.scale(text[9],(200,40))
-                gameDisplay.blit(x,(320,310))
-                '''
                 if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
                     gameDisplay.blit(button,(300,200))
                     screen_text=font.render("resume",True,red)
@@ -675,25 +662,27 @@ def gameloop():
                     screen_text=font.render("HARD",True,(0,255,255))
                 x=pygame.transform.scale(text[11],(200,40))
                 gameDisplay.blit(x,(320,410))
+                font1=pygame.font.SysFont(None,100)
+                screen_text =font.render("Score "+str(score),True,black)
+                gameDisplay.blit(screen_text,[0,0])
+                screen_text=font.render("       Life "+str(life),True,black)
+                gameDisplay.blit(screen_text,[540,0])
                 pygame.display.update()
                 for event in pygame.event.get():
-                        if event.type == pygame.MOUSEBUTTONDOWN:
-                                #if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
-                                #    global bar_size,quit3
-                                #    bar_size=100
-                                #    quit4=True
-                                if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
-                                    global quit1,quit2,quit3,quit4,play
-                                    quit1=False
-                                    quit2=False
-                                    quit3=False
-                                    quit4=True
-                                    mainmenu()
-                                    
-        
-                                if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
-                                    global quit4    
-                                    quit4=True
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
+                            global quit1,quit2,quit3,quit4,quit5,play
+                            quit1=False
+                            quit2=False
+                            quit3=False
+                            quit5=False
+                            quit4=True
+                            mainmenu()   
+                        if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
+                            global quit4    
+                            quit4=True
+
+#Difficulty level screen 
     def difficultyselect():
         global quit3
         while not quit3:
@@ -731,24 +720,26 @@ def gameloop():
                 gameDisplay.blit(x,(320,410))
                 pygame.display.update()
                 for event in pygame.event.get():
-                        if event.type == pygame.MOUSEBUTTONDOWN:
-                                if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
-                                    global bar_size,quit3
-                                    bar_size=100
-                                    quit3=True
-                                    modes()
-                                if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
-                                    global bar_size,quit3
-                                    bar_size=50
-                                    quit3=True
-                                    modes()
-                                if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
-                                        global bar_size,quit3
-                                        bar_size=150
-                                        quit3=True
-                                        modes()
-    #Main Game Loop
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if mouse_x>=300 and mouse_x<=520 and mouse_y>=300 and mouse_y<=360:
+                            global bar_size,quit3
+                            bar_size=100
+                            quit3=True
+                            modes()
+                        if mouse_x>=300 and mouse_x<=520 and mouse_y>=400 and mouse_y<=460:
+                            global bar_size,quit3
+                            bar_size=50
+                            quit3=True
+                            modes()
+                        if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
+                            global bar_size,quit3
+                            bar_size=150
+                            quit3=True
+                            modes()
+    
+#Level Select screen
     def levelselect():
+        global quit2
         while not quit2:
             gameDisplay.fill(black)
             mouse_x,mouse_y=pygame.mouse.get_pos()
@@ -790,8 +781,9 @@ def gameloop():
                         quit2=True
         difficultyselect()
 
+#Main Game Loop
     def mainmenu():
-        global quit1
+        global quit1,helping
         while not quit1:
             gameDisplay.fill(black)
             mouse_x,mouse_y=pygame.mouse.get_pos()
@@ -812,6 +804,8 @@ def gameloop():
                 gameDisplay.blit(button1,(300,400))
             x=pygame.transform.scale(text[4],(150,40))
             gameDisplay.blit(x,(340,410))
+            screen_text=font.render("Press H for help",True,(0,0,0))
+            gameDisplay.blit(screen_text,(450,550))
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -824,13 +818,26 @@ def gameloop():
                         quit1=True
                         levelselect()
                     elif mouse_x>=300 and mouse_x<=550 and mouse_y>=400 and mouse_y<=460:
-                        gameexit=True
-                        
+                        gameexit=True     
                         gameover=False
                         global quit1
                         quit1=True
                         pygame.quit()
                         quit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_h:
+                        gameDisplay.fill(black)
+                        gameDisplay.blit(helping,(0,0))
+                        pygame.display.update()
+                        quitz=False
+                        while not quitz:
+                            for event in pygame.event.get():
+                                if event.type==pygame.KEYDOWN:
+                                    if event.key==pygame.K_q:
+                                        quitz=True
+
+
+#Main Menu Screen
     if(play==False):
         global quit1,quit2,quit3,quit4
         quit1=False
@@ -839,11 +846,13 @@ def gameloop():
         quit4=False
         quit5=False
         mainmenu()
+            
+#Main Game 
     while (not gameexit) and play:
         mouse_x,mouse_y=pygame.mouse.get_pos()
         global quit4
         quit4 =False
-        #Event Handling - Left,Right,Quiting of game
+#Event Handling - Left,Right,Quiting of game,pausing
         z1=0
         z2=0
         for event in pygame.event.get():
@@ -864,53 +873,56 @@ def gameloop():
                         global quit4
                         quit4=False
                         pausef()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        global quit4
+                        quit4=False
+                        pausef()
                         
-        if gameexit==True:
-            print "Hello"
-        #Dividing bar in 3 parts, different reflection for each position
+#Dividing bar in 3 parts, different reflection for each position
         if lead_x>=lead_x_bar and lead_x<(lead_x_bar+bar_size/3) and (lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar):
                 if(lead_x_change>0):
                         lead_y_change=-lead_y_change
-                        if (leadbar_x_change == 0 ):#and lead_x_change != 0):
+                        if (leadbar_x_change == 0 ):
                             lead_x_change=-lead_x_change
-                        elif (leadbar_x_change > 0 and lead_x_change<=12):# and lead_x_change != 0):
+                        elif (leadbar_x_change > 0 and lead_x_change<=12):
                             lead_x_change = -(lead_x_change) + 2
-                        elif (leadbar_x_change < 0):# and lead_x_change != 0):
+                        elif (leadbar_x_change < 0):
                             lead_x_change = -(lead_x_change) - 2
                         pygame.mixer.Sound.play(bounce_sound)
                 else:
                         lead_y_change=-lead_y_change
-                        if (leadbar_x_change > 0):# and lead_x_change != 0):
+                        if (leadbar_x_change > 0):
                             lead_x_change += 2
-                        elif (leadbar_x_change < 0):# and lead_x_change != 0):
+                        elif (leadbar_x_change < 0):
                             lead_x_change -= 2
                         pygame.mixer.Sound.play(bounce_sound)
         if lead_x>=lead_x_bar+bar_size/3 and lead_x<(lead_x_bar+(bar_size*2)/3) and lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar:
                 lead_y_change=-lead_y_change
-                if (leadbar_x_change > 0):# and lead_x_change != 0):
+                if (leadbar_x_change > 0):
                     lead_x_change += 2
-                elif (leadbar_x_change < 0):# and lead_x_change != 0):
+                elif (leadbar_x_change < 0):
                     lead_x_change -= 2
                 pygame.mixer.Sound.play(bounce_sound)
         if lead_x>=lead_x_bar+(bar_size*2)/3 and lead_x<=(lead_x_bar+bar_size) and lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar:
                 if(lead_x_change<0):
                         lead_y_change=-lead_y_change
-                        if (leadbar_x_change == 0):# and lead_x_change != 0):
+                        if (leadbar_x_change == 0):
                             lead_x_change=-lead_x_change
-                        elif (leadbar_x_change > 0):# and lead_x_change != 0):
+                        elif (leadbar_x_change > 0):
                             lead_x_change = -(lead_x_change) + 2
-                        elif (leadbar_x_change < 0):# and lead_x_change != 0):
+                        elif (leadbar_x_change < 0):
                             lead_x_change = -(lead_x_change) - 2
                         pygame.mixer.Sound.play(bounce_sound)
                 else:
                         lead_y_change=-lead_y_change
-                        if (leadbar_x_change > 0):# and lead_x_change != 0):
+                        if (leadbar_x_change > 0):
                             lead_x_change += 2
-                        elif (leadbar_x_change < 0):# and lead_x_change != 0):
+                        elif (leadbar_x_change < 0):
                             lead_x_change -= 2
                         pygame.mixer.Sound.play(bounce_sound)
 
-        #Reflection of ball at the edge of the screen
+#Reflection of ball at the edge of the screen
         global mode
         if (mode == 1):
             if lead_x+block_size>=display_width or lead_x<=0 :
@@ -930,7 +942,7 @@ def gameloop():
                 lead_y_change =- lead_y_change
                 pygame.mixer.Sound.play(bounce_sound)
 
-        #Game over when ball goes down under the screen and the bar misses
+#Game over when ball goes down under the screen and the bar misses
         if lead_y>display_height:
             if life==0:
                 global bge
@@ -943,12 +955,14 @@ def gameloop():
             else:
                 life=life-1
                 lead_x=400
-                lead_y=400
+                lead_y=300
+                lead_x_change=4
+                lead_y_change=4
                 time.sleep(1)
                 pygame.mixer.Sound.play(life_sound)
                 continue
 
-        #Replayability after death
+#Replayability after death
         while gameover== True:
                 gameDisplay.fill(black)
                 mouse_x,mouse_y=pygame.mouse.get_pos()
@@ -1009,7 +1023,7 @@ def gameloop():
                                     gameloop()
 
 
-        #Checking bar edge so that it doesn't go off screen
+#Checking bar edge so that it doesn't go off screen
         if(lead_x_bar<=display_width-bar_size and lead_x_bar>-1):
                 lead_x_bar +=leadbar_x_change
         if(lead_x_bar<=0):
@@ -1017,7 +1031,7 @@ def gameloop():
         if(lead_x_bar>=display_width-bar_size):
                 lead_x_bar=display_width-bar_size
 
-        #Getting the screen ready
+#Getting the screen ready
         gameDisplay.fill(white)
         gameDisplay.blit(bg,(0,0))
         pygame.draw.rect(gameDisplay,red,[lead_x_bar,lead_y_bar,bar_size,block_size])
@@ -1026,24 +1040,14 @@ def gameloop():
         pygame.draw.rect(gameDisplay,black,[lead_x,lead_y,block_size,block_size])
         if(mouse_x>770 and mouse_x<800 and mouse_y>0 and mouse_y<30):
                 gameDisplay.blit(pause1,(770,0))
-                '''
-                for event in pygame.event.get():
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        global quit4
-                        quit4=False
-                        pausef()
-                '''        
         else:
                     gameDisplay.blit(pause,(770,0))
 
-
-
-
-        #Drawing the level
+#Drawing the level
         levels()
         gameover=gameo()
 
-        #Displaying the score
+#Displaying the score
         font1=pygame.font.SysFont(None,100)
         screen_text =font.render("Score "+str(score),True,black)
         gameDisplay.blit(screen_text,[0,0])
@@ -1053,8 +1057,11 @@ def gameloop():
             if tc[i]>0 and tc[i]<500:
                 screen_text=font.render("Time "+str(tc[i]),True,black)
                 gameDisplay.blit(screen_text,[(i+1)*200,0])
+            if fc[i]>0 and fc[i]<500:
+                screen_text=font.render("Time "+str(fc[i]),True,black)
+                gameDisplay.blit(screen_text,[(i+1)*200,0])
 
-        #Changing the ball position for the next loop
+#Changing the ball position for the next loop
         lead_x += lead_x_change
         lead_y += lead_y_change
         global blasttime1,blasttime2,blasttime21
@@ -1077,13 +1084,13 @@ def gameloop():
             gameDisplay.blit(blast1,(325-(x/2),125-(x/2)))
             blasttime21=blasttime21-1        
         
-        #Updating the display
+#Updating the display
         pygame.display.update()
 
-        #Controlling the Frames per second (FPS) //60 For Now
-        clock.tick(2*fps)
+#Controlling the Frames per second (FPS) //60 For Now
+        clock.tick(fps)
 
-    #Ending Pygame
+#Ending Pygame
     global quit4
     pygame.quit()
     quit()
@@ -1092,13 +1099,4 @@ def gameloop():
 gameloop()
 #Things to be done
 #        First Priority
-# Reflection Sounds
-# Choice of level in main menu
-#        Second Priority
-# Fireball powerup from top?
-# Fast Ball Brick Image
-# level 1 slight redesign
-# the time counter overlaps with life counter
-# Modes (Reflection/no side reflection) implementation
-# Exploding brick pictures and sound
-# Time Reset Function
+#  Help Screen
