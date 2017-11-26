@@ -27,7 +27,7 @@ accompanying files in the same directory.
 Features of the game:
 1.Two different LEVELS (1 & 2)
 2.Two different MODES (Normal & Warp)
-3.Three different DIFFICULTY MODES (EASY & MEDIUM & HARD)
+3.Three different DIFFICULTY MODES (EASY, MEDIUM, HARD)
 4.Powerups:
   a)Ice Brick: Slows down the ball
   b)Exploding Brick: Explodes upon contact
