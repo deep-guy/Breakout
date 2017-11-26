@@ -25,6 +25,8 @@ bounce_sound = pygame.mixer.Sound("hit.ogg")
 life_sound = pygame.mixer.Sound("life.ogg")
 ice_sound = pygame.mixer.Sound("ice.ogg")
 whoosh_sound = pygame.mixer.Sound("whoosh.ogg")
+win_sound = pygame.mixer.Sound("win.ogg")
+lose_sound = pygame.mixer.Sound("gameover.ogg")
 speed_sound = pygame.mixer.Sound("speedup.ogg")
 blast_sound = pygame.mixer.Sound("Explosion.ogg")
 pygame.mixer.music.play(-1)
@@ -354,7 +356,6 @@ def level():
         ExplodingBlock1(13*50,100+30,100,bb1,0)
     if bb1[1]:
         ExplodingBlock1(4*50,100+100,100,bb1,1)
-
     if tb[0]==1:
         timeblock(40,100+30,100,tb,0)
     if tb[1]==1:
@@ -523,7 +524,8 @@ def gameo():
                 screen_text=font.render("Score: "+str(score),True,black)
                 gameDisplay.blit(screen_text,(500,500))
                 pygame.display.update()
-                time.sleep(2)
+                pygame.mixer.Sond.play(win_sound)
+                time.sleep(5)
                 return True
     return False
 
