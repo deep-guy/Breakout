@@ -524,7 +524,7 @@ def gameo():
                 screen_text=font.render("Score: "+str(score),True,black)
                 gameDisplay.blit(screen_text,(500,500))
                 pygame.display.update()
-                pygame.mixer.Sond.play(win_sound)
+                pygame.mixer.Sound.play(win_sound)
                 time.sleep(5)
                 return True
     return False
@@ -951,8 +951,9 @@ def gameloop():
                 gameDisplay.blit(bge,(0,0))
                 x=pygame.transform.scale(text[1],(400,200))
                 gameDisplay.blit(x,[200,200])
+                pygame.mixer.Sound.play(lose_sound)
                 pygame.display.update()
-                time.sleep(2)
+                time.sleep(4)
                 gameover=True
             else:
                 life=life-1
