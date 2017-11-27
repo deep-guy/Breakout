@@ -19,16 +19,16 @@ blue=(0,0,255)
 yellow=(255,255,0)
 
         #Loading the sounds
-background_music = pygame.mixer.music.load("background.mpeg")
-hit_sound = pygame.mixer.Sound("brick_1.ogg")
-bounce_sound = pygame.mixer.Sound("hit.ogg")
-life_sound = pygame.mixer.Sound("life.ogg")
-ice_sound = pygame.mixer.Sound("ice.ogg")
-whoosh_sound = pygame.mixer.Sound("whoosh.ogg")
-win_sound = pygame.mixer.Sound("win.ogg")
-lose_sound = pygame.mixer.Sound("gameover.ogg")
-speed_sound = pygame.mixer.Sound("speedup.ogg")
-blast_sound = pygame.mixer.Sound("Explosion.ogg")
+background_music = pygame.mixer.music.load("./Sound/background.mpeg")
+hit_sound = pygame.mixer.Sound("./Sound/brick_1.ogg")
+bounce_sound = pygame.mixer.Sound("./Sound/hit.ogg")
+life_sound = pygame.mixer.Sound("./Sound/life.ogg")
+ice_sound = pygame.mixer.Sound("./Sound/ice.ogg")
+whoosh_sound = pygame.mixer.Sound("./Sound/whoosh.ogg")
+win_sound = pygame.mixer.Sound("./Sound/win.ogg")
+lose_sound = pygame.mixer.Sound("./Sound/gameover.ogg")
+speed_sound = pygame.mixer.Sound("./Sound/speedup.ogg")
+blast_sound = pygame.mixer.Sound("./Sound/Explosion.ogg")
 pygame.mixer.music.play(-1)
 
         #Resoultion
@@ -100,20 +100,20 @@ blasttime21=0
 
         #Graphics Loading
             #Image Loading
-bg= pygame.image.load("background2.png")
+bg= pygame.image.load("./Pictures/background2.png")
 bg= pygame.transform.scale(bg,(display_width,display_height))
-brick= pygame.image.load("brick.png")
-brickgreen=pygame.image.load("gb1.jpg")
-bge= pygame.image.load("background3.jpg")
+brick= pygame.image.load("./Pictures/brick.png")
+brickgreen=pygame.image.load("./Pictures/gb1.jpg")
+bge= pygame.image.load("./Pictures/background3.jpg")
 bge= pygame.transform.scale(bge,(display_width,display_height))
-iceball=pygame.image.load("iceball.jpg")
+iceball=pygame.image.load("./Pictures/iceball.jpg")
 iceball=pygame.transform.scale(iceball,(10,10))
-blast=pygame.image.load("blast.png")
-pause=pygame.image.load("pause.png")
+blast=pygame.image.load("./Pictures/blast.png")
+pause=pygame.image.load("./Pictures/pause.png")
 pause=pygame.transform.scale(pause,(30,30))
-pause1=pygame.image.load("pause1.png")
+pause1=pygame.image.load("./Pictures/pause1.png")
 pause1=pygame.transform.scale(pause1,(30,30))
-helping=pygame.image.load("Help.jpg")
+helping=pygame.image.load("./Pictures/Help.jpg")
 helping=pygame.transform.scale(helping,(display_width,display_height))
 
             #Video Loading
@@ -124,23 +124,23 @@ for x in range(1,18):
     text.append(b1)
 frames=[]
 for x in range(253,501):
-    b="frames/scene00"+str(x)+".png"
+    b="./Pictures/frames/scene00"+str(x)+".png"
     b1=pygame.image.load(b)
     b1=pygame.transform.scale(b1,(200,200))
     frames.append(b1)
 frames1=[]
 for x in range(181,501):
-    b="frames2/scene00"+str(x)+".png"
+    b="./Pictures/frames2/scene00"+str(x)+".png"
     b1=pygame.image.load(b)
     b1=pygame.transform.scale(b1,(200,200))
     frames1.append(b1)
-button=pygame.image.load("button.png")
+button=pygame.image.load("./Pictures/button.png")
 button=pygame.transform.scale(button,(250,60))
-button1=pygame.image.load("button1.png")
+button1=pygame.image.load("./Pictures/button1.png")
 button1=pygame.transform.scale(button1,(250,60))
-bomb=pygame.image.load("bomb.jpg")
-blackbrick=pygame.image.load("blackbrick.png")
-iceblock=pygame.image.load("iceblock.jpg")
+bomb=pygame.image.load("./Pictures/bomb.jpg")
+blackbrick=pygame.image.load("./Pictures/blackbrick.png")
+iceblock=pygame.image.load("./Pictures/iceblock.jpg")
 
 
             #Font Loading
@@ -254,7 +254,7 @@ def ExplodingBlock2(blx,bly,bls,bb2,i):
             l23[2]=0
             l23[3]=0
             l24[3]=0
-            pygame.mixer.Sound.play(blast_sound) 
+            pygame.mixer.Sound.play(blast_sound)
         if i==1:
             global l1,l2,l3
             l24[6]=0
@@ -271,13 +271,13 @@ def ExplodingBlock2(blx,bly,bls,bb2,i):
             l27[7]=0
             l27[8]=0
             blasttime21=15
-            pygame.mixer.Sound.play(blast_sound) 
+            pygame.mixer.Sound.play(blast_sound)
 
     if bb2[i]:
         pygame.draw.rect(gameDisplay,blue,[blx,bly,bls,block_size])
         brick1=pygame.transform.scale(bomb,(bls,block_size))
         gameDisplay.blit(brick1,(blx,bly))
-           
+
            #List declaration for each row of Bricks
 l=[]
 l1=[]
@@ -536,14 +536,14 @@ mode = 2
 
             #Main Loop Calling Function
 def gameloop():
-       
+
 #Game Ending control Variables
     gameexit=False
     gameover=False
 
     #Referencing global scope variables
 
-#Ball 
+#Ball
     global lead_x
     global lead_y
     lead_x=display_width/2
@@ -554,11 +554,11 @@ def gameloop():
     global lead_y_bar
     lead_x_bar=display_width/2
 
-#Block Size 
+#Block Size
     global block_size
     block_size=10
 
-#Ball Change 
+#Ball Change
     global lead_x_change
     global lead_y_change
 
@@ -593,7 +593,7 @@ def gameloop():
 
 #Mode level Screen
     def modes():
-            global quit5 
+            global quit5
             i1=0
             i2=0
             while not quit5:
@@ -602,11 +602,11 @@ def gameloop():
                 global white,bge,red,yellow
                 gameDisplay.blit(bge,(0,0))
                 if(i1>248*4-3):
-                    i1=0 
+                    i1=0
                 gameDisplay.blit(frames[i1/4],(320,1))
                 i1=i1+1
                 if(i2>319*4-3):
-                    i2=0 
+                    i2=0
                 gameDisplay.blit(frames1[i2/4],(320,300))
                 i2=i2+1
                 if not(mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
@@ -634,7 +634,7 @@ def gameloop():
                             quit5=True
                         if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
                             global quit4,mode
-                            mode=2    
+                            mode=2
                             quit5=True
 
 #Pause level screen
@@ -679,12 +679,12 @@ def gameloop():
                             quit3=False
                             quit5=False
                             quit4=True
-                            mainmenu()   
+                            mainmenu()
                         if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
-                            global quit4    
+                            global quit4
                             quit4=True
 
-#Difficulty level screen 
+#Difficulty level screen
     def difficultyselect():
         global quit3
         while not quit3:
@@ -738,7 +738,7 @@ def gameloop():
                             bar_size=150
                             quit3=True
                             modes()
-    
+
 #Level Select screen
     def levelselect():
         global quit2
@@ -820,7 +820,7 @@ def gameloop():
                         quit1=True
                         levelselect()
                     elif mouse_x>=300 and mouse_x<=550 and mouse_y>=400 and mouse_y<=460:
-                        gameexit=True     
+                        gameexit=True
                         gameover=False
                         global quit1
                         quit1=True
@@ -848,8 +848,8 @@ def gameloop():
         quit4=False
         quit5=False
         mainmenu()
-            
-#Main Game 
+
+#Main Game
     while (not gameexit) and play:
         mouse_x,mouse_y=pygame.mouse.get_pos()
         global quit4
@@ -869,7 +869,7 @@ def gameloop():
                                 z2=1
                 if event.type ==pygame.KEYUP:
                         leadbar_x_change=0
-                    
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if(mouse_x>770 and mouse_x<800 and mouse_y>0 and mouse_y<30):
                         global quit4
@@ -880,7 +880,7 @@ def gameloop():
                         global quit4
                         quit4=False
                         pausef()
-                        
+
 #Dividing bar in 3 parts, different reflection for each position
         if lead_x>=lead_x_bar and lead_x<(lead_x_bar+bar_size/3) and (lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar):
                 if(lead_x_change>0):
@@ -1073,20 +1073,20 @@ def gameloop():
             x=12*(60-blasttime1)
             blast1=pygame.transform.scale(blast,(x,x))
             gameDisplay.blit(blast1,(625-(x/2),115-(x/2)))
-            blasttime1=blasttime1-1        
+            blasttime1=blasttime1-1
         if(blasttime2>0):
             global blast
             x=12*(60-blasttime2)
             blast1=pygame.transform.scale(blast,(x,x))
             gameDisplay.blit(blast1,(175-(x/2),175-(x/2)))
-            blasttime2=blasttime2-1        
+            blasttime2=blasttime2-1
         if(blasttime21>0):
             global blast
             x=12*(60-blasttime21)
             blast1=pygame.transform.scale(blast,(x,x))
             gameDisplay.blit(blast1,(325-(x/2),125-(x/2)))
-            blasttime21=blasttime21-1        
-        
+            blasttime21=blasttime21-1
+
 #Updating the display
         pygame.display.update()
 
@@ -1100,6 +1100,3 @@ def gameloop():
 
 #Calling the Function which runs all the Code for the game
 gameloop()
-#Things to be done
-#        First Priority
-#  Help Screen
