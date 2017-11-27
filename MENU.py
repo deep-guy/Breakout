@@ -156,7 +156,7 @@ def levelselect(q):
     q=difficultyselect([play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode])
     return q
 
-#Main Game Loop
+#Main menu screen
 def mainmenu(q):
     play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode=q
     # global quit1,helping
@@ -186,11 +186,6 @@ def mainmenu(q):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if mouse_x>=300 and mouse_x<=550 and mouse_y>=300 and mouse_y<=360:
-                    # brickrestart()
-                    # global score
-                    # score=0
-                    # global life
-                    # life=2
                     global play
                     play=True
                     global quit1
@@ -198,10 +193,6 @@ def mainmenu(q):
                     q=[play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode]
                     q=levelselect(q)
                 elif mouse_x>=300 and mouse_x<=550 and mouse_y>=400 and mouse_y<=460:
-                    # gameexit=True
-                    # gameover=False
-                    # global quit1
-                    # quit1=True
                     pygame.quit()
                     quit()
             if event.type == pygame.KEYDOWN:
@@ -220,7 +211,7 @@ def mainmenu(q):
 #Pause level screen
 def pausef(q):
     global quit4
-    play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score=q
+    play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life=q
     while not quit4:
         gameDisplay.fill(black)
         mouse_x,mouse_y=pygame.mouse.get_pos()

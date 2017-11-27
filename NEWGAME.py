@@ -3,8 +3,6 @@
             #Importing modules
 import pygame
 import time
-import random
-import math
 
 from LOADING import *
 
@@ -249,8 +247,8 @@ def gameloop():
                     if event.key == pygame.K_SPACE:
                         global quit4
                         quit4=False
-                        q=play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score
-                        play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score=pausef(q)
+                        q=play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life
+                        play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life=pausef(q)
 
 #Dividing bar in 3 parts, different reflection for each position
         if lead_x>=lead_x_bar and lead_x<(lead_x_bar+bar_size/3) and (lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar):
@@ -424,7 +422,7 @@ def gameloop():
             lead_x,lead_y,lead_x_change,lead_y_change,l,l1,l2,l3,bb1,tb,tc,blasttime1,blasttime2,score=level([lead_x,lead_y,score,block_size,lead_x_change,lead_y_change,speedtoggle,l,l1,l2,l3,bb1,tb,tc,blasttime1,blasttime2])
         else:
             lead_x,lead_y,lead_x_change,lead_y_change,l21,l22,l23,l24,l25,l26,l27,bb2,fb,fc,blasttime21,score=level2([lead_x,lead_y,score,block_size,lead_x_change,lead_y_change,speedtoggle,l21,l22,l23,l24,l25,l26,l27,bb2,fb,fc,blasttime21])
-        gameover=gameo(l,l1,l2,l3,l21,l22,l23,l24,l25,l26,l27,tb,fb,bb1,bb2)
+        gameover=gameo(l,l1,l2,l3,l21,l22,l23,l24,l25,l26,l27,tb,fb,bb1,bb2,score)
 
 #Displaying the score
         font1=pygame.font.SysFont(None,100)
@@ -477,4 +475,4 @@ def gameloop():
 #Calling the Function which runs all the Code for the game
 gameloop()
 
-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X
+# X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X

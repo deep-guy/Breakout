@@ -1,3 +1,4 @@
+import time
 from LOADING import *
 from SPEED import *
 from BRICKS import *
@@ -11,9 +12,6 @@ def message_to_screen(msg,color):
             #Level 1 Design
 def level(v):
         #Row creation for normal bricks
-    # global lead_x_change,lead_y_change,speedtoggle,l,l1,l2,l3
-    # global lead_x,lead_y,score,bb1,tb,tc,block_size
-    # global blasttime1,blasttime2
     lead_x,lead_y,score,block_size,lead_x_change,lead_y_change,speedtoggle,l,l1,l2,l3,bb1,tb,tc,blasttime1,blasttime2=v
     for i in range(15):
         if l[i]==1:
@@ -43,9 +41,6 @@ def level(v):
 
             #Level 2 Design
 def level2(v):
-    # global lead_x_change,lead_y_change,fspeedtoggle,l21,l22,l23,l24,l25,l26,l27
-    # global lead_x,lead_y,score,bb2,fb,fc,block_size
-    # global blasttime21
     lead_x,lead_y,score,block_size,lead_x_change,lead_y_change,fspeedtoggle,l21,l22,l23,l24,l25,l26,l27,bb2,fb,fc,blasttime21=v
     for i in range(15):
         if i>0:
@@ -89,14 +84,13 @@ def level2(v):
 
 
             #Game Over Checking Function
-def gameo(l,l1,l2,l3,l21,l22,l23,l24,l25,l26,l27,tb,fb,bb1,bb2):
+def gameo(l,l1,l2,l3,l21,l22,l23,l24,l25,l26,l27,tb,fb,bb1,bb2,score):
     def check(q):
         for x in range(len(q)):
             if(q[x]!=0):
                 return 1
         return 0
     if(((check(l)+check(l1)+check(l2)+check(l3)+check(tb)+check(bb1))==0) or (check(l21)+check(l22)+check(l23)+check(l24)+check(l25)+check(l26)+check(l27)+check(fb)+check(bb2))==0):
-                #global bge
                 gameDisplay.blit(bge,(0,0))
                 message_to_screen("Congrats! You Won",red)
                 screen_text=font.render("Score: "+str(score),True,black)
