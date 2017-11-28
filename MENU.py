@@ -211,7 +211,7 @@ def mainmenu(q):
 #Pause level screen
 def pausef(q):
     global quit4
-    play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life=q
+    play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life,rs=q
     while not quit4:
         gameDisplay.fill(black)
         mouse_x,mouse_y=pygame.mouse.get_pos()
@@ -252,8 +252,10 @@ def pausef(q):
                     quit5=False
                     quit4=True
                     play=False
-                    mainmenu(q)
+                    rs=1
+                    play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode=mainmenu([play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode])
                 if (mouse_x>=300 and mouse_x<=520 and mouse_y>=200 and mouse_y<=260):
                     global quit4
                     quit4=True
+    q=play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life,rs
     return q

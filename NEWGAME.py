@@ -22,6 +22,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '0'
 
     #For game exit
 gameexit=False
+gameover=False
 
     #Position of ball
 lead_x=display_width/2
@@ -100,6 +101,9 @@ fc=[]
 bb1=[]
 bb2=[]
 
+    #Restarter variable
+rs=1
+
 
         #List initialization for bricks
             #Normal Bricks
@@ -166,6 +170,7 @@ def brickrestart():
         tb[i]=1
         tc[i]=500
 
+    global lead_x,lead_y,lead_x_bar,bar_size,lead_x_change,lead_y_change,life,score
     lead_x=200
     lead_y=400
     lead_x_bar=400-bar_size/2
@@ -178,33 +183,38 @@ def brickrestart():
 def gameloop():
 
 #Game Ending control Variables
+    global gameexit,gameover
     gameexit=False
     gameover=False
 
     #Initializing Variables
 
 #Ball
-    lead_x=display_width/2
-    lead_y=display_height/2
+    global lead_x,lead_y
 
 #Bar
+    global lead_x_bar
     lead_x_bar=display_width/2
 
 #Block Size
-    block_size=10
+    global block_size
 
 #Bar control change variable
+    global leadbar_x_change
     leadbar_x_change=0
 
 #Life Scoping
+    global life
     life=2
 
 #Level Initialization
     brickrestart()
 
 #Quit control variables
+    global quit1
     quit1=False
-
+#Blast time Control
+    global blasttime1,blasttime2,blasttime21
 #Main Menu Screen
     if(play==False):
         global quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode
@@ -241,15 +251,18 @@ def gameloop():
                     if(mouse_x>770 and mouse_x<800 and mouse_y>0 and mouse_y<30):
                         global quit4
                         quit4=False
-                        q=play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score
-                        play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score=pausef(q)
+                        q=play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life,rs
+                        play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life,rs=pausef(q)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         global quit4
                         quit4=False
-                        q=play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life
-                        play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life=pausef(q)
-
+                        q=play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life,rs
+                        play,quit1,quit2,quit3,quit4,quit5,levels,bar_size,mode,score,life,rs=pausef(q)
+        global rs
+        if rs==1:
+            brickrestart()
+            rs=0
 #Dividing bar in 3 parts, different reflection for each position
         if lead_x>=lead_x_bar and lead_x<(lead_x_bar+bar_size/3) and (lead_y>=(lead_y_bar-block_size) and lead_y<=lead_y_bar):
                 if(lead_x_change>0):
