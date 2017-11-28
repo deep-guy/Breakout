@@ -149,19 +149,40 @@ def brickrestart():
         l2[i]=1
         l3[i]=1
     for i in range(15):
-         l21[i]=1
+        if i>0:
+            l21[i]=1
+        else:
+            l21[i]=0
     for i in range(14):
-         l22[i]=1
+        if i>1:
+            l22[i]=1
+        else:
+            l22[i]=0
     for i in range(13):
-        l23[i]=1
+        if i>2:
+            l23[i]=1
+        else:
+            l23[i]=0
     for i in range(12):
-        l24[i]=1
+        if i>3:
+            l24[i]=1
+        else:
+            l24[i]=0
     for i in range(11):
-        l25[i]=1
+        if i>4:
+            l25[i]=1
+        else:
+            l25[i]=0
     for i in range(10):
-        l26[i]=1
+        if i>5:
+            l26[i]=1
+        else:
+            l26[i]=0
     for i in range(9):
-        l27[i]=1
+        if i>6:
+            l27[i]=1
+        else:
+            l27[i]=0
     for i in range(2):
         fb[i]=1
         fc[i]=500
